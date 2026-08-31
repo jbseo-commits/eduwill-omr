@@ -37,7 +37,15 @@ for f in "${!MAP[@]}"; do
 done
 
 echo
-echo "== 3. 위생 검사 (개인정보 · 외부요청) =="
+echo "== 3. 입시결과 커버리지 확장 =="
+# 🔴 반드시 «복사 뒤»에 온다 — 2단계가 원본으로 덮어써 이 패치를 지우기 때문이다.
+#    원본 빌더(build_omr_app_v2.py)는 Codex 락이라 손대지 않고, 배포본에만 덧댄다.
+#    락이 풀려 빌더가 워크북을 직접 읽게 되면 이 단계는 «지워야» 한다(이중 적용은 아니지만 불필요).
+PYTHONIOENCODING=utf-8 python "$DIST/adm_expand.py" "$DIST/omr-v2.html" || {
+  echo "  🔴 입시결과 확장에 실패했다."; exit 1; }
+
+echo
+echo "== 4. 위생 검사 (개인정보 · 외부요청) =="
 # 🔴 PYTHONIOENCODING 필수 — 안 주면 stdout 이 CP949 라 이모지에서 UnicodeEncodeError 가 난다.
 #    그러면 위생 «위반»이 아니라 «검사기 고장»인데 실패로 잡혀 배포가 막힌다.
 PYTHONIOENCODING=utf-8 python - "$DIST" <<'PY'
@@ -77,9 +85,9 @@ else
 fi
 
 echo
-echo "== 4. 커밋 · 푸시 =="
+echo "== 5. 커밋 · 푸시 =="
 cd "$DIST" || exit 1
-git add index.html omr.html omr-v2.html .nojekyll robots.txt README.md .gitattributes 배포.sh
+git add index.html omr.html omr-v2.html .nojekyll robots.txt README.md .gitattributes adm_expand.py 배포.sh
 if git diff --cached --quiet; then
   echo "  변경 없음 — 커밋 생략."
 else
