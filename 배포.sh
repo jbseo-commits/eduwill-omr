@@ -45,7 +45,22 @@ PYTHONIOENCODING=utf-8 python "$DIST/adm_expand.py" "$DIST/omr-v2.html" || {
   echo "  🔴 입시결과 확장에 실패했다."; exit 1; }
 
 echo
-echo "== 4. 위생 검사 (개인정보 · 외부요청) =="
+echo "== 4. 목표 문항 수 단위 패치 =="
+# 🔴 «복사 뒤»에 와야 한다 — 2단계가 원본으로 덮어써 이 패치를 지우기 때문이다(3단계와 같은 이유).
+#    고치는 것: s.gapTop 은 «점수» 차인데 세 곳이 «문항 수»로 썼다. 배점이 있는 시험
+#    (건국대 1-20번 3점·21-40번 2점 등)에서 56점→상위30% 73.5점이면 need=18(문항)이 되어
+#    «틀린 19개 중 18개를 잡아라»가 학생 리포트로 나갔다(2026-08-31 사고). 실제로는 7~9문항이다.
+#    원본(exam-qa/app/OMR진단기_v2.html)을 고치면 gap_fix.pl 이 «이미 적용됨»만 찍고 넘어가니,
+#    그때 이 단계를 지워라. python 이 아니라 perl 인 이유 — Git Bash 에 항상 있어서다.
+perl "$DIST/gap_fix.pl" "$DIST/omr-v2.html" || {
+  echo "  🔴 목표 문항 수 패치에 실패했다."; exit 1; }
+# 조용히 빠지면 틀린 리포트가 다시 나간다 — 파일에 «있는지» 눈으로 확인한다.
+grep -q 's\.gapQ=0;' "$DIST/omr-v2.html" || {
+  echo "  🔴 패치가 파일에 들어가지 않았다."; exit 1; }
+echo "  ✅ 목표 문항 수는 «배점 누적» 기준이다."
+
+echo
+echo "== 5. 위생 검사 (개인정보 · 외부요청) =="
 # 🔴 PYTHONIOENCODING 필수 — 안 주면 stdout 이 CP949 라 이모지에서 UnicodeEncodeError 가 난다.
 #    그러면 위생 «위반»이 아니라 «검사기 고장»인데 실패로 잡혀 배포가 막힌다.
 PYTHONIOENCODING=utf-8 python - "$DIST" <<'PY'
@@ -85,9 +100,9 @@ else
 fi
 
 echo
-echo "== 5. 커밋 · 푸시 =="
+echo "== 6. 커밋 · 푸시 =="
 cd "$DIST" || exit 1
-git add index.html omr.html omr-v2.html .nojekyll robots.txt README.md .gitattributes adm_expand.py 배포.sh
+git add index.html omr.html omr-v2.html .nojekyll robots.txt README.md .gitattributes adm_expand.py gap_fix.pl 배포.sh
 if git diff --cached --quiet; then
   echo "  변경 없음 — 커밋 생략."
 else

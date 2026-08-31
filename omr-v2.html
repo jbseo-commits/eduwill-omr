@@ -986,6 +986,16 @@ function run(){ setLoading(true,'분석 중…'); setTimeout(()=>{ try {
   s.plan=computePlan(s);s.targetLine='';
   s.tier=TIERS.find(t=>t.score>s.score+0.5)||null;
   s.gapTop=s.tier?Math.max(1,Math.round(s.tier.score-s.score)):0;
+  // 🔴 gapTop 은 «점수» 차다 — «문항 수»가 아니다. 배점이 있는 시험(1-20번 3점·21-40번 2점 등)에서
+  //    이걸 문항 수로 쓰면 «틀린 19개 중 18개를 잡아라»가 나온다(2026-08-31 사고). 실제론 6~9문항이었다.
+  //    gapQ = 회복이 싼 순(반 정답률 높은 순)으로 «배점»을 누적해 격차를 메우는 데 필요한 문항 수.
+  //    배점이 없으면 pointOf()가 1이라 gapQ===gapTop 이 되어 종전과 같다(하위 호환).
+  //    걸러내는 조건은 wrongPageHTML 의 rows 와 «같아야» 한다 — 표의 가로줄 위치가 이 값이다.
+  s.gapQ=0;
+  if(s.tier){const wq=qlist.filter(q=>{const k=km[q].key,a=s.ans[q];
+     return k&&k!=='None'&&(a==null||String(a)!==String(k));}).sort((x,y)=>itemByQ[y].p-itemByQ[x].p);
+   let acc=0;for(let i=0;i<wq.length;i++){acc+=pointOf(wq[i],SCORECTX);if(acc>=s.gapTop){s.gapQ=i+1;break;}}
+   if(!s.gapQ)s.gapQ=wq.length;}   // 다 잡아도 못 넘는 경우 — 있는 만큼으로 둔다
   const tsk=(s.tier||TIERS[TIERS.length-1]).skill;
   s.recover=s.profile.map(p=>{const t=tsk[p.label];
    if(t==null||t<=p.acc)return null;
@@ -1009,8 +1019,8 @@ function run(){ setLoading(true,'분석 중…'); setTimeout(()=>{ try {
   if(s.tier)P.push(hasActualPoints(SCORECTX)?`다음 목표는 <b>${s.tier.label}</b>(${s.tier.key==='avg'?'':'평균 '}${scoreFraction(s.tier.score,SCORECTX)}) — <b>${fmtScore(s.gapTop,SCORECTX)}점</b>을 더 얻으면 됩니다.`:`다음 목표는 <b>${s.tier.label}</b>(${s.tier.key==='avg'?'':'평균 '}${Math.round(s.tier.score)}문항) — <b>${Math.round(s.gapTop)}문항</b>을 더 맞히면 됩니다.`);
   else P.push(`이 반에서 <b>최상위권</b>입니다. 현 수준 유지가 목표입니다.`);
   if(s.recover.length&&s.tier){const r=s.recover[0];
-   if(r.gain>=s.gapTop)P.push(`<b>${r.label}</b>만 잡아도 <b>${s.tier.label}</b>${josaEul(s.tier.label)} 넘어섭니다(${r.nq}문항 중 ${Math.round(r.acc/100*r.nq)}개 → ${Math.round(r.top/100*r.nq)}개).`);
-   else P.push(`더 맞혀야 할 ${Math.round(s.gapTop)}문항 가운데 <b>${Math.round(r.gain)}문항</b>이 <b>${r.label}</b>입니다(${r.nq}문항 중 ${Math.round(r.acc/100*r.nq)}개 → ${Math.round(r.top/100*r.nq)}개).`);}
+   if(s.gapQ&&r.gain>=s.gapQ)P.push(`<b>${r.label}</b>만 잡아도 <b>${s.tier.label}</b>${josaEul(s.tier.label)} 넘어섭니다(${r.nq}문항 중 ${Math.round(r.acc/100*r.nq)}개 → ${Math.round(r.top/100*r.nq)}개).`);
+   else P.push(`더 맞혀야 할 ${s.gapQ}문항 가운데 <b>${Math.round(r.gain)}문항</b>이 <b>${r.label}</b>입니다(${r.nq}문항 중 ${Math.round(r.acc/100*r.nq)}개 → ${Math.round(r.top/100*r.nq)}개).`);}
   else if(s.recover.length){const r=s.recover[0];
    P.push(`가장 올릴 여지가 큰 곳은 <b>${r.label}</b>입니다(${r.nq}문항 중 ${Math.round(r.acc/100*r.nq)}개 맞힘).`);}
   if(s.tail>=3)P.push(`끝 ${s.tail}문항이 비어 <b>시간 배분</b>부터 점검하세요.`);
@@ -1611,7 +1621,7 @@ function wrongPageHTML(s,D){
    return !noKey&&(a==null||String(a)!==String(r.key));}).sort((a,b)=>b.p-a.p);
  if(!rows.length)return '';
  // 목표 칸까지 남은 문항 수 — 위에서 그만큼이 '가장 싼 회복분'이다
- const need=s.tier?Math.max(1,Math.round(s.gapTop)):0;
+ const need=s.tier?Math.min(s.gapQ||0,rows.length):0;
  const head='<tr><th>번</th><th>정답/내답</th><th>반 정답률</th><th>유형</th><th>정답 찾는 법</th><th>함정</th></tr>';
  let body='';
  rows.forEach((r,i)=>{
@@ -1638,7 +1648,7 @@ function wrongPageHTML(s,D){
   +'<div class=d>'+new Date().toLocaleDateString('ko-KR')+'<br>'+D.school+' · '+CURYEAR+'학년도</div></div>'
   +'<div class=sub><b>'+sname(s)+'</b> · 틀린 문항 '+rows.length+'개 · <b>반 정답률이 높은 순</b>'
   +' — 위쪽일수록 남들은 맞힌 문항이라 <b>가장 빨리 회복</b>됩니다'
-  +(need?' · 위 '+need+'개만 잡아도 <b>'+esc(s.tier.label)+'에 도달할 수 있습니다</b>':'')+'</div>'
+  +(need&&need<rows.length?' · 위 '+need+'개만 잡아도 <b>'+esc(s.tier.label)+'에 도달할 수 있습니다</b>':'')+'</div>'
   +(()=>{
       let stHTML = '<table class="wit wone" style="margin-bottom:12px"><tr><th>영역</th><th>문항수</th><th>내 정답률</th><th>반 평균</th><th>반에서 내 위치</th></tr>';
       (s.radar||[]).forEach(r=>{
