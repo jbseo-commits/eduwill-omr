@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>편입영어 OMR 진단기</title>
+<style>
+:root{
+  --bg:#050508; --surface:rgba(20,22,35,.4); --surface2:rgba(30,32,45,.6);
+  --border:rgba(255,255,255,.08); --border2:rgba(255,255,255,.15);
+  --text:#f8fafc; --muted:#a1a1aa; --faint:#8b8b96;
+  --pri:#6366f1; --pri-d:#4f46e5; --pri-t:#a5b4fc; --pri-l:rgba(99,102,241,.15);
+  --ok:#34d399; --okbg:rgba(16,185,129,.1); --okbd:rgba(16,185,129,.2);
+  --r:12px; --rl:24px; --shl:0 10px 40px rgba(0,0,0,.6);
+  --font:'Outfit','Inter',-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text); font-family:var(--font);
+  line-height:1.6; -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+/* 배경 광원 — 앱 히어로와 같은 인상 */
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(60rem 32rem at 18% -12%, rgba(99,102,241,.16), transparent 60%),
+    radial-gradient(48rem 28rem at 92% 4%, rgba(56,189,248,.10), transparent 60%);
+}
+.wrap{position:relative; z-index:1; max-width:940px; margin:0 auto; padding:clamp(28px,6vw,72px) clamp(18px,4vw,32px) 64px}
+
+header{margin-bottom:clamp(32px,6vw,56px)}
+.brand{display:flex; align-items:center; gap:10px; margin-bottom:clamp(28px,5vw,44px)}
+.brand .mark{
+  width:30px; height:30px; border-radius:9px; flex:none;
+  background:linear-gradient(135deg,var(--pri),#38bdf8);
+  display:grid; place-items:center; font-size:15px; font-weight:700; color:#fff;
+}
+.brand .nm{font-weight:600; font-size:15px; letter-spacing:-.01em}
+.brand .sub{color:var(--faint); font-size:13px; margin-left:2px}
+
+h1{
+  font-size:clamp(28px,5.4vw,44px); line-height:1.22; letter-spacing:-.025em;
+  font-weight:700; margin:0 0 14px;
+}
+h1 .hl{background:linear-gradient(135deg,var(--pri-t),#7dd3fc); -webkit-background-clip:text; background-clip:text; color:transparent}
+.lede{color:var(--muted); font-size:clamp(15px,2.2vw,17px); max-width:56ch; margin:0}
+
+.cards{display:grid; gap:16px; grid-template-columns:1fr; margin:clamp(30px,5vw,44px) 0 0}
+@media(min-width:720px){ .cards{grid-template-columns:1fr 1fr} .card.wide{grid-column:1/-1} }
+
+.card{
+  display:block; text-decoration:none; color:inherit;
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--rl);
+  padding:clamp(20px,3vw,28px); transition:border-color .18s, transform .18s, background .18s;
+}
+.card:hover,.card:focus-visible{border-color:var(--border2); background:var(--surface2); transform:translateY(-2px)}
+.card:focus-visible{outline:2px solid var(--pri-t); outline-offset:3px}
+.card .top{display:flex; align-items:center; gap:9px; margin-bottom:12px; flex-wrap:wrap}
+.card h2{font-size:19px; font-weight:650; letter-spacing:-.015em; margin:0}
+.card p{color:var(--muted); font-size:14.5px; margin:0 0 16px}
+.tag{
+  font-size:11.5px; font-weight:600; letter-spacing:.01em; padding:3px 9px; border-radius:999px;
+  background:var(--pri-l); color:var(--pri-t); border:1px solid rgba(99,102,241,.25);
+}
+.tag.plain{background:rgba(255,255,255,.05); color:var(--faint); border-color:var(--border)}
+ul.feat{list-style:none; margin:0 0 18px; padding:0; display:grid; gap:7px}
+ul.feat li{color:var(--faint); font-size:13.5px; padding-left:18px; position:relative}
+ul.feat li::before{content:'·'; position:absolute; left:6px; color:var(--pri-t); font-weight:700}
+.go{display:inline-flex; align-items:center; gap:6px; color:var(--pri-t); font-size:14px; font-weight:600}
+.card:hover .go .ar{transform:translateX(3px)}
+.go .ar{transition:transform .18s}
+
+.note{
+  margin-top:clamp(28px,5vw,40px); display:flex; gap:12px; align-items:flex-start;
+  background:var(--okbg); border:1px solid var(--okbd); border-radius:var(--r);
+  padding:16px 18px; color:var(--muted); font-size:13.5px; line-height:1.62;
+}
+.note .ic{color:var(--ok); flex:none; font-size:15px; line-height:1.5}
+.note b{color:var(--text); font-weight:600}
+
+footer{margin-top:clamp(36px,6vw,56px); padding-top:22px; border-top:1px solid var(--border); color:var(--faint); font-size:12.5px}
+footer p{margin:0 0 5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <span class="mark" aria-hidden="true">편</span>
+      <span class="nm">편입영어 진단</span>
+      <span class="sub">· 2022·2023·2024·2025 기출</span>
+    </div>
+    <h1>OMR 한 장으로,<br><span class="hl">반 진단부터 학생별 처방까지</span></h1>
+    <p class="lede">학원 양식 엑셀을 올리면 자동 채점 → 능력·함정 분석 → 학생마다 A4 진단 리포트 한 장까지. 설치 없이 브라우저에서 바로 씁니다.</p>
+  </header>
+
+  <main>
+    <div class="cards">
+
+      <a class="card" href="omr-v2.html">
+        <div class="top"><h2>OMR 진단기</h2><span class="tag">권장</span></div>
+        <p>능력 레이더와 함정 분석까지 들어간 최신판입니다.</p>
+        <ul class="feat">
+          <li>6능력 레이더 — 내 성적 대비 학교가 세게 묻는 축</li>
+          <li>함정 유형별 오답 진단</li>
+          <li>문항 배점 반영 실점수</li>
+          <li>학생별 A4 리포트 · 반 대시보드</li>
+        </ul>
+        <span class="go">열기 <span class="ar" aria-hidden="true">→</span></span>
+      </a>
+
+      <a class="card" href="omr.html">
+        <div class="top"><h2>OMR 진단기 <span style="color:var(--faint);font-weight:500">기본판</span></h2><span class="tag plain">가벼움</span></div>
+        <p>레이더 없이 채점과 처방에만 집중한 판입니다.</p>
+        <ul class="feat">
+          <li>자동 채점 · 시험지 자동 판별</li>
+          <li>능력별 정답률 · 틀린 문항 처방</li>
+          <li>학생별 A4 리포트 · 반 대시보드</li>
+          <li>파일이 가벼워 오래된 PC에서 유리</li>
+        </ul>
+        <span class="go">열기 <span class="ar" aria-hidden="true">→</span></span>
+      </a>
+
+      <a class="card wide" href="https://jbseo-commits.github.io/eduwill-bupyeong-2022/">
+        <div class="top"><h2>2022학년도 기출 해설집</h2><span class="tag plain">별도 사이트</span></div>
+        <p>35개 시험지 1,444문항의 전체 해설입니다. 진단기에서 틀린 문항을 확인한 뒤 이어서 보세요.</p>
+        <span class="go">열기 <span class="ar" aria-hidden="true">→</span></span>
+      </a>
+
+    </div>
+
+    <div class="note">
+      <span class="ic" aria-hidden="true">🔒</span>
+      <div><b>올린 파일은 이 PC 밖으로 나가지 않습니다.</b> 채점과 분석이 모두 브라우저 안에서 처리되고,
+      서버로 전송되는 데이터가 없습니다. 리포트에는 이름·전화번호를 쓰지 않고 학생을 시트의 행 순서로만 표기합니다.</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>편입영어 OMR 진단기 · 2022·2023·2024·2025 기출 기준 · 오프라인 처리</p>
+    <p>작성: 서정빈</p>
+  </footer>
+
+</div>
+</body>
+</html>
