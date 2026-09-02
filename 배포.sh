@@ -37,21 +37,25 @@ for f in "${!MAP[@]}"; do
 done
 
 echo
-echo "== 3. 입시결과 커버리지 확장 =="
-# 🔴 반드시 «복사 뒤»에 온다 — 2단계가 원본으로 덮어써 이 패치를 지우기 때문이다.
-#    원본 빌더(build_omr_app_v2.py)는 Codex 락이라 손대지 않고, 배포본에만 덧댄다.
-#    락이 풀려 빌더가 워크북을 직접 읽게 되면 이 단계는 «지워야» 한다(이중 적용은 아니지만 불필요).
-PYTHONIOENCODING=utf-8 python "$DIST/adm_expand.py" "$DIST/omr-v2.html" || {
-  echo "  🔴 입시결과 확장에 실패했다."; exit 1; }
+echo "== 3. 입시결과 커버리지 확인 =="
+# 📌 2026-09-02 에 «사후 패치»에서 «확인»으로 바뀌었다 — 빌더(build_omr_app_v2.py:build_admissions)가
+#    이제 admissions_workbook.json 을 직접 읽는다. 락이 풀려 원본을 고칠 수 있게 됐기 때문이다.
+#    산출물은 종전 adm_expand.py 결과와 «키 순서까지 동일»함을 대조해 확인했다(24개교·112쌍·4,000행).
+#    adm_expand.py 는 지우지 않고 남겨 둔다 — 빌더가 되돌아갔을 때 되살릴 자리다.
+# 조용히 3개교로 줄면 대부분의 시험지에서 커트라인 박스가 «통째로» 사라진다. 눈으로 확인한다.
+nadm=$(PYTHONIOENCODING=utf-8 python -c "import re,json,sys;print(len(json.loads(re.search(r'const ADM=(\{.*?\});',open(sys.argv[1],encoding='utf-8').read(),re.S).group(1))))" "$DIST/omr-v2.html")
+if [ "$nadm" -lt 20 ]; then
+  echo "  🔴 ADM 이 ${nadm}개교뿐이다 — 빌더가 워크북을 못 읽었다."; exit 1; fi
+echo "  ✅ 입시결과 ${nadm}개교 내장(빌더 산출)."
 
 echo
 echo "== 4. 목표 문항 수 단위 패치 =="
-# 🔴 «복사 뒤»에 와야 한다 — 2단계가 원본으로 덮어써 이 패치를 지우기 때문이다(3단계와 같은 이유).
+# 🔴 «복사 뒤»에 와야 한다 — 2단계가 원본으로 덮어써 이 패치를 지우기 때문이다(2단계가 원본으로 덮어쓴다).
 #    고치는 것: s.gapTop 은 «점수» 차인데 세 곳이 «문항 수»로 썼다. 배점이 있는 시험
 #    (건국대 1-20번 3점·21-40번 2점 등)에서 56점→상위30% 73.5점이면 need=18(문항)이 되어
 #    «틀린 19개 중 18개를 잡아라»가 학생 리포트로 나갔다(2026-08-31 사고). 실제로는 7~9문항이다.
-#    원본(exam-qa/app/OMR진단기_v2.html)을 고치면 gap_fix.pl 이 «이미 적용됨»만 찍고 넘어가니,
-#    그때 이 단계를 지워라. python 이 아니라 perl 인 이유 — Git Bash 에 항상 있어서다.
+#    📌 2026-09-02 에 원본(build_omr_app_v2.py)으로 승격했다 — 이제 «이미 적용됨»으로 건너뛴다.
+#    사용자 지시로 이 단계는 «남긴다»: 재빌드가 이 수정을 잃으면 다시 붙여 주는 안전망이다. python 이 아니라 perl 인 이유 — Git Bash 에 항상 있어서다.
 perl "$DIST/gap_fix.pl" "$DIST/omr-v2.html" || {
   echo "  🔴 목표 문항 수 패치에 실패했다."; exit 1; }
 # 조용히 빠지면 틀린 리포트가 다시 나간다 — 파일에 «있는지» 눈으로 확인한다.
