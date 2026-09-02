@@ -62,9 +62,26 @@ perl "$DIST/gap_fix.pl" "$DIST/omr-v2.html" || {
 grep -q 's\.gapQ=0;' "$DIST/omr-v2.html" || {
   echo "  🔴 패치가 파일에 들어가지 않았다."; exit 1; }
 echo "  ✅ 목표 문항 수는 «배점 누적» 기준이다."
+echo
+echo "== 5. 배포본 덧댐 패치 (약점 판정 · 학과명) =="
+# 🔴 «복사 뒤»에 와야 한다 — 2단계가 원본으로 덮어써 이 패치를 지운다(3·4단계와 같은 이유).
+#  A. 학과명 오타  「바이오메이컬공학전공」 → 「바이오메디컬공학전공」 (한국외대 자연계열 3곳).
+#     진짜 출처는 exam-qa 의 data/admissions/admissions_workbook.json 이다. 거기를 고치면 A 는 저절로 건너뛴다.
+#  B. 얇은 축 약점 보정  문항 4개뿐인 축은 1문항이 25%p라 값이 극단으로 튄다.
+#     2022 한국외대 오전(논리·추론 4문항)에서 14명 중 6명의 «1순위 약점»을 이 축이 가져갔고,
+#     3/4(75%)를 맞힌 학생까지 약점으로 잡혔다(2026-09-02 제보). 6→2명으로 줄었고 점수는 불변이다.
+#     원본 빌더로 승격하면 «이미 적용됨»으로 건너뛰니 그때 이 단계를 지워라.
+perl "$DIST/dist_fix.pl" "$DIST/omr-v2.html" || {
+  echo "  🔴 배포본 덧댐 패치에 실패했다."; exit 1; }
+# 조용히 빠지면 틀린 약점 판정과 오타가 다시 나간다 — 파일에 «있는지» 눈으로 확인한다.
+grep -q 'SHRINK' "$DIST/omr-v2.html" || {
+  echo "  🔴 약점 보정이 파일에 들어가지 않았다."; exit 1; }
+if grep -q '바이오메이컬' "$DIST/omr-v2.html"; then
+  echo "  🔴 학과명 오타가 남아 있다."; exit 1; fi
+echo "  ✅ 약점 판정은 «얇은 축 보정» 기준이고, 학과명 오타는 없다."
 
 echo
-echo "== 5. 위생 검사 (개인정보 · 외부요청) =="
+echo "== 6. 위생 검사 (개인정보 · 외부요청) =="
 # 🔴 PYTHONIOENCODING 필수 — 안 주면 stdout 이 CP949 라 이모지에서 UnicodeEncodeError 가 난다.
 #    그러면 위생 «위반»이 아니라 «검사기 고장»인데 실패로 잡혀 배포가 막힌다.
 PYTHONIOENCODING=utf-8 python - "$DIST" <<'PY'
@@ -104,9 +121,9 @@ else
 fi
 
 echo
-echo "== 6. 커밋 · 푸시 =="
+echo "== 7. 커밋 · 푸시 =="
 cd "$DIST" || exit 1
-git add index.html omr.html omr-v2.html .nojekyll robots.txt README.md .gitattributes adm_expand.py gap_fix.pl 배포.sh
+git add index.html omr.html omr-v2.html .nojekyll robots.txt README.md .gitattributes adm_expand.py gap_fix.pl dist_fix.pl 배포.sh
 if git diff --cached --quiet; then
   echo "  변경 없음 — 커밋 생략."
 else
