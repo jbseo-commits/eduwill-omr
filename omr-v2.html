@@ -955,8 +955,20 @@ function run(){ setLoading(true,'분석 중…'); setTimeout(()=>{ try {
  const itemByQ={};items.forEach(it=>itemByQ[it.q]=it);
  const sacc=(s,pred)=>{let c=0,t=0;for(const q of qlist){if(!pred(km[q]))continue;t++;if(s.ans[q]!=null&&String(s.ans[q])===km[q].key)c++;}return[c,t];};
  const skillWeight={};SKILLS.forEach(d=>{let t=0;for(const q of qlist)if(d.pred(km[q]))t++;skillWeight[d.label]=Math.round(t/nq*100);});
- const cohortSkill={};SKILLS.forEach(d=>{let c=0,t=0;for(const s of stu){const[cc,tt]=sacc(s,d.pred);c+=cc;t+=tt;}cohortSkill[d.label]=t?Math.round(c/t*100):null;});
- const cohortReco=Object.entries(cohortSkill).filter(([,a])=>a!=null).sort((a,b)=>a[1]-b[1]).slice(0,3).map(([l,a])=>({label:l,acc:a,schools:reco(SKILLS.find(s=>s.label===l).axis)}));
+ // 🔴 AWLTH 를 «여기서» 잡는다(2026-09-04). 종전에는 TIERS 를 만든 «뒤»(아래 1321행 자리)에서
+ //    잡았는데, RADAR 의 「고급 어휘」 술어가 AWLTH 를 읽으므로 grpSkill(g30) 이 «직전 시험지의»
+ //    기준선으로 계산됐다. 실측 — 같은 성균관 데이터를 직전 건국대 뒤에 돌리면 상위30% 「고급 어휘」가
+ //    75, 성균관 뒤에 돌리면 72 로 «달라졌다». 학생 본인 값(s.radar)은 항상 올바른 기준선을 쓰므로
+ //    한 그래프 안에서 내 값과 비교선의 잣대가 어긋나 있었다.
+ const awls=qlist.map(q=>km[q].awl).filter(v=>typeof v==='number').sort((a,b)=>a-b);
+ AWLTH=awls.length?awls[Math.floor(awls.length/2)]:1e9;
+ // 🔴 반 평균도 RADAR(8축)로 낸다(2026-09-04). 종전에는 SKILLS(6축)라 영역별 성취도 표의
+ //    「숨은 의미 추론」·「고급 어휘」 두 줄에서 반 평균이 undefined → **0%** 로 찍혔다.
+ //    상위30%(grpSkill)는 이미 RADAR 였다 — 같은 표 안에서 축 개수가 어긋나 있었던 것이다.
+ const cohortSkill={};RADAR.forEach(d=>{let c=0,t=0;for(const s of stu){const[cc,tt]=sacc(s,d.pred);c+=cc;t+=tt;}cohortSkill[d.label]=t?Math.round(c/t*100):null;});
+ // 🔴 추천은 «6축 그대로» 둔다 — 표시 전용 2축을 넣으면 학습계획·기출추천이 조용히 바뀐다
+ //    (RADAR 정의 주석의 「SKILLS를 직접 늘리지 않는 이유」와 같은 이유다).
+ const cohortReco=Object.entries(cohortSkill).filter(([l,a])=>a!=null&&SKILLS.some(s=>s.label===l)).sort((a,b)=>a[1]-b[1]).slice(0,3).map(([l,a])=>({label:l,acc:a,schools:reco(SKILLS.find(s=>s.label===l).axis)}));
  const grpSkill=g=>{const o={};RADAR.forEach(d=>{let c=0,t=0;for(const s of g){const[cc,tt]=sacc(s,d.pred);c+=cc;t+=tt;}o[d.label]=t?Math.round(c/t*100):null;});return o;};
  const avgOf=g=>Math.round(g.reduce((a,b)=>a+b.score,0)/g.length*10)/10;
  // 🔴 칸의 기준선은 «집단 평균»이 아니라 «진입 커트»다(2026-09-02 사용자 결정 · 제보 결함 수정).
@@ -972,8 +984,7 @@ function run(){ setLoading(true,'분석 중…'); setTimeout(()=>{ try {
  TIERS=TIERS.filter((t,i)=>i===0||t.score>TIERS[i-1].score+0.05);
  const t30Skill = (TIERS.find(t=>t.key==='t30')||TIERS[0]).skill;
  const tavgSkill = TIERS[0].skill;
- const awls=qlist.map(q=>km[q].awl).filter(v=>typeof v==='number').sort((a,b)=>a-b);
- AWLTH=awls.length?awls[Math.floor(awls.length/2)]:1e9;
+ // (AWLTH 는 위 cohortSkill 앞으로 «옮겼다» — 2026-09-04. 여기서 잡으면 grpSkill 이 이미 지나간 뒤다.)
  for(const s of stu){const ov=s.pct/100;
   s.profile=SKILLS.map(d=>{const[c,t]=sacc(s,d.pred);return t?{label:d.label,axis:d.axis,acc:Math.round(c/t*100),classAcc:cohortSkill[d.label],r:c/t,nq:t,weight:skillWeight[d.label]}:null;}).filter(Boolean);
   s.t30Skill=t30Skill; s.tavgSkill=tavgSkill; s.radar=RADAR.map(d=>{const[c,t]=sacc(s,d.pred);return t>=3?{label:d.label,axis:d.axis,acc:Math.round(c/t*100),nq:t}:null;}).filter(Boolean);
