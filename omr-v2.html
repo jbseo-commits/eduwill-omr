@@ -1631,7 +1631,10 @@ function qGridHTML(s,D){
   const a=s.ans[r.q], wrong=a==null||String(a)!==r.key, p=Math.round(r.p*100);
   return `<div class="qc${wrong?' w':(' ok')}${a==null?' b':''}">`
    +`<span class=qn>${r.q}</span>`
-   +`<span class=qp style="background:${accCol(r.p)};color:${accTxt(r.p)}">${p}</span></div>`;
+   /* 🔴 «%» 를 붙인다(2026-09-04 사용자 지시). 색 띠의 숫자가 맨숫자라 문항 번호(위 띠)와
+      같은 종류로 읽혔다 — 62 가 62번인지 62% 인지 학생이 구분하지 못했다.
+      칸은 6열 기준 ≈50px 이고 글자는 8.6px 이라 한 글자 늘어도 넘치지 않는다(실측 확인). */
+   +`<span class=qp style="background:${accCol(r.p)};color:${accTxt(r.p)}">${p}%</span></div>`;
  };
  const wrongs=rows.filter(r=>{const a=s.ans[r.q];return a==null||String(a)!==r.key;}).map(r=>r.q);
  const wtxt=wrongs.length?`<div class=qsum><b>틀린 문항 ${wrongs.length}개</b> ${wrongs.join(' · ')}</div>`:'';
