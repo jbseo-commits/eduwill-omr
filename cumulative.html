@@ -23,6 +23,7 @@ h1{font-size:20px;margin:0 0 4px}
 button{font:inherit;padding:8px 16px;border:1px solid var(--line);background:#fff;border-radius:7px;cursor:pointer}
 button.pri{background:var(--accent);color:#fff;border-color:var(--accent)}
 button:disabled{opacity:.45;cursor:default}
+button.mini{padding:3px 10px;font-size:12px;border-radius:6px}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th,td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
 th{background:#f2f4f8;font-weight:600;font-size:12px;color:var(--dim)}
@@ -94,8 +95,16 @@ label.ck{font-size:13px;color:var(--dim);cursor:pointer;user-select:none}
   </div>
 
   <div class="card">
-    <h3 style="margin:0 0 4px;font-size:15px">능력 6축 — 최근 회차</h3>
-    <div class="sub" style="margin-bottom:12px">문항 수가 3개 미만인 축은 흔들리므로 표시하지 않습니다.</div>
+    <div class="rowline" style="justify-content:space-between;align-items:flex-start">
+      <div>
+        <h3 style="margin:0 0 4px;font-size:15px">누적 능력 6축 · 학생 리포트</h3>
+        <div class="sub">
+          응시한 <b>회차를 전부 합산</b>했습니다 — 한 회차만 보면 축별 문항이 3~16개로 들쭉날쭉해
+          정답률이 0%↔100%를 오갑니다. <b>누적 10문항 미만인 축은 「적음」으로 표시하고 판단하지 않습니다.</b>
+        </div>
+      </div>
+      <button id="saveall" class="pri">학생별 리포트 전체 저장</button>
+    </div>
     <div class="tw"><table id="axes"></table></div>
   </div>
 
@@ -258,18 +267,43 @@ function score(student, km, pm){
   }
   return {raw, correct, answered};
 }
-function axisRates(student, km){
-  return SKILLS.map(sk => {
-    let c = 0, t = 0;
-    for(const q in km){
-      if(!sk.pred(km[q])) continue;
-      const a = student.ans[q];
-      if(a == null) continue;
-      t++;
-      if(String(a) === km[q].key) c++;
-    }
-    return t >= 3 ? {label:sk.label, acc:Math.round(c/t*100), nq:t} : null;
-  });
+/* 🔴 능력축은 «회차별»로 내지 않는다 — 회차 하나의 축별 문항이 3~16개로 들쭉날쭉해서
+   정답률이 0%↔100% 를 오간다(실측: 문법 67%(6문항) → 3문항 → 0%(3문항)).
+   그래서 «응시한 회차 전부»를 합산한다. 이것이 누적의 값어치다.
+   미응시 회차는 어디에도 들어가지 않는다 — 0점으로 세지 않는다. */
+function cumAxes(key){
+  const acc = SKILLS.map(() => [0,0]);
+  for(const s of SESSIONS){
+    const r = s.rows.get(key);
+    if(!r) continue;
+    SKILLS.forEach((sk,i) => {
+      for(const q in s.km){
+        if(!sk.pred(s.km[q])) continue;
+        const a = r.st.ans[q];
+        if(a == null) continue;
+        acc[i][1]++;
+        if(String(a) === s.km[q].key) acc[i][0]++;
+      }
+    });
+  }
+  return SKILLS.map((sk,i) => ({
+    label: sk.label,
+    acc: acc[i][1] ? Math.round(acc[i][0]/acc[i][1]*100) : null,
+    nq: acc[i][1],
+    /* 문항이 10개 미만이면 한 문제가 10%p 넘게 움직인다 — 판단하지 않는다 */
+    thin: acc[i][1] < 10
+  }));
+}
+
+/* 처방 — 「믿을 수 있는 축 가운데 가장 낮은 곳」 하나만 고른다.
+   ⛔ 얇은 축(10문항 미만)을 약점이라고 말하지 않는다. */
+function advice(axes){
+  const soild = axes.filter(a => a.acc != null && !a.thin);
+  if(soild.length < 2) return null;
+  const low = soild.reduce((m,a) => a.acc < m.acc ? a : m);
+  const high = soild.reduce((m,a) => a.acc > m.acc ? a : m);
+  if(low.label === high.label) return null;
+  return {low, high, gap: high.acc - low.acc};
 }
 /* 상위 % — 동점자는 같은 값. 모집단은 그 회차 응시자다. */
 function topPercents(vals){
@@ -281,7 +315,17 @@ function topPercents(vals){
 }
 
 /* ── 상태 ── */
-let SESSIONS = [], ROSTER = new Map(), WARN = [];
+let SESSIONS = [], ROSTER = new Map(), WARN = [], LASTKEYS = [];
+
+function toast(msg, kind){
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:99;' +
+    'background:' + (kind === 'ok' ? '#0d8a5f' : '#16191f') + ';color:#fff;padding:10px 18px;border-radius:8px;' +
+    'font-size:13px;box-shadow:0 4px 18px rgba(0,0,0,.2)';
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3200);
+}
 
 function resetState(){ SESSIONS = []; ROSTER = new Map(); WARN = []; }
 
@@ -403,6 +447,7 @@ function render(){
     if(A && B) return A.top - B.top;
     return A ? -1 : (B ? 1 : 0);
   });
+  LASTKEYS = keys;
 
   h = '<tr><th>학생</th>' + SESSIONS.map(s =>
         '<th>' + s.year + ' ' + s.stem.split('_')[0].replace('대학교','') + '<br><span class="muted" style="font-weight:400">' + s.n + '명 중</span></th>'
@@ -429,18 +474,160 @@ function render(){
   });
   $('students').innerHTML = h;
 
-  /* 6축 — 최근 회차 */
-  h = '<tr><th>학생</th>' + SKILLS.map(s => '<th>' + s.label + '</th>').join('') + '</tr>';
+  /* 6축 — 응시한 회차 «전부»를 합산한다(§ cumAxes 주석) */
+  h = '<tr><th>학생</th><th>응시</th>' + SKILLS.map(s => '<th>' + s.label + '</th>').join('') + '<th>리포트</th></tr>';
   keys.forEach((k,i) => {
-    const r = last.rows.get(k);
-    if(!r) return;
-    const ax = axisRates(r.st, last.km);
-    h += '<tr><td>' + anon(k,i) + '</td>' + ax.map(a =>
-      a ? '<td class="num">' + a.acc + '% <span class="bar"><i style="width:' + a.acc + '%"></i></span> <span class="muted">(' + a.nq + '문항)</span></td>'
-        : '<td class="miss">문항 부족</td>'
-    ).join('') + '</tr>';
+    const took = SESSIONS.filter(s => s.rows.has(k)).length;
+    if(!took) return;
+    const ax = cumAxes(k);
+    h += '<tr><td>' + anon(k,i) + '</td><td class="num muted">' + took + '회</td>' + ax.map(a =>
+      a.acc == null ? '<td class="miss">—</td>'
+      : '<td class="num">' + a.acc + '% <span class="bar"><i style="width:' + a.acc + '%' +
+        (a.thin ? ';background:#cbd3e0' : '') + '"></i></span> <span class="muted">(' + a.nq + '문항' + (a.thin ? ' · 적음' : '') + ')</span></td>'
+    ).join('') + '<td><button class="mini" data-k="' + i + '">저장</button></td></tr>';
   });
   $('axes').innerHTML = h;
+  $('axes').querySelectorAll('button.mini').forEach(b => b.onclick = () => saveReport(keys[+b.dataset.k], +b.dataset.k));
+}
+
+/* ── 학생별 리포트 (독립 HTML 한 장) ──────────────────────────────────────
+   개인 링크 대신 «파일»로 낸다(사용자 결정 2026-09-15). 카톡·메일로 한 명씩 보낸다. */
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/* 🔴 막대 색은 «절대 정답률»이 아니라 «그 학생 안에서의 자리»로 칠한다.
+   절대 기준으로 칠하면 전반이 높은 학생은 약점까지 초록이 되어 눈에 안 띄고(실측: 62~94% 전부 초록),
+   전반이 낮은 학생은 강점까지 빨강이 된다. 길이는 정답률 그대로다 — 색만 상대다. */
+function barColor(a, adv){
+  if(a.thin) return '#c2760a';
+  if(adv && a.label === adv.low.label)  return '#cf3b3b';
+  if(adv && a.label === adv.high.label) return '#0d8a5f';
+  return '#9aa7bd';
+}
+
+function buildReport(key, idx){
+  const who = esc(anon(key, idx));
+  const meta = ROSTER.get(key);
+  const rows = SESSIONS.map(s => ({s, r:s.rows.get(key)}));
+  const took = rows.filter(x => x.r).length;
+  const ax = cumAxes(key);
+  const adv = advice(ax);
+
+  let prev = null;
+  const trs = rows.map(({s,r}) => {
+    if(!r) return '<tr class="skip"><td>' + esc(s.year) + '</td><td>' + esc(s.stem.replace(/_/g,' ')) +
+                  '</td><td class="num">—</td><td>응시하지 않음</td><td class="num">—</td></tr>';
+    let d = '<span style="color:#98a1af">—</span>';
+    if(prev != null){
+      const g = prev - r.top;                       /* 상위%는 작을수록 좋다 */
+      d = g > 0 ? '<b style="color:#0d8a5f">▲ ' + g + '%p</b>'
+        : g < 0 ? '<b style="color:#cf3b3b">▼ ' + (-g) + '%p</b>'
+        : '<span style="color:#98a1af">변화 없음</span>';
+    }
+    prev = r.top;
+    return '<tr><td>' + esc(s.year) + '</td><td>' + esc(s.stem.replace(/_/g,' ')) + '</td>' +
+           '<td class="num">' + r.correct + ' / ' + s.nq + '</td>' +
+           '<td><b>상위 ' + r.top + '%</b> <span class="tagsm">' + s.n + '명 중</span></td>' +
+           '<td class="num">' + d + '</td></tr>';
+  }).join('');
+
+  const sorted = [...ax].filter(a => a.acc != null).sort((a,b) => a.acc - b.acc);
+  const axtr = sorted.map(a => {
+    const judge = a.thin ? '<span style="color:#c2760a;font-weight:600">참고만</span>'
+      : adv && a.label === adv.low.label ? '<span style="color:#cf3b3b;font-weight:700">여기부터</span>'
+      : adv && a.label === adv.high.label ? '<span style="color:#0d8a5f;font-weight:600">가장 나음</span>'
+      : '<span style="color:#98a1af">보통</span>';
+    return '<tr><td><b>' + esc(a.label) + '</b></td>' +
+      '<td><span class="bar"><i style="width:' + a.acc + '%;background:' + barColor(a, adv) + '"></i></span> <b>' + a.acc + '%</b></td>' +
+      '<td class="num">' + a.nq + '문항' + (a.thin ? ' <span class="tagsm few">적음</span>' : '') + '</td>' +
+      '<td>' + judge + '</td></tr>';
+  }).join('');
+
+  const thin = ax.filter(a => a.thin && a.acc != null);
+  const thinNote = thin.length ? '<div class="caution"><b>' + thin.map(a => esc(a.label)).join(' · ') +
+    '은(는) 판단하지 않았습니다.</b> ' + took + '회를 합쳐도 ' + thin.map(a => a.nq).join('·') +
+    '문항뿐이라 한 문제에 ' + Math.round(100/Math.max(1,Math.min(...thin.map(a => a.nq)))) +
+    '%p가 움직입니다. 이 축이 정말 약한지는 해당 문항이 많은 시험지를 한 번 더 본 뒤에 말할 수 있습니다.</div>' : '';
+
+  const advBlock = adv ? '<div class="callout"><b>' + esc(adv.low.label) + ' — ' + adv.low.nq +
+    '문항 중 ' + Math.round(adv.low.acc/100*adv.low.nq) + '개를 맞혔습니다(' + adv.low.acc + '%).</b><br>' +
+    '가장 나은 ' + esc(adv.high.label) + '(' + adv.high.acc + '%)과 <b>' + adv.gap +
+    '%p</b> 차이입니다. 다음 한 달은 이 축의 문항을 다시 풀 때 <b>답의 근거가 된 문장에 밑줄</b>을 치고, ' +
+    '왜 그 문장이 답을 정하는지 한 줄로 적어 보세요.</div>'
+    : '<div class="caution">믿을 만한 축이 아직 둘 미만이라 <b>처방을 내지 않았습니다.</b> 회차가 더 쌓이면 나옵니다.</div>';
+
+  const pops = rows.filter(x => x.r).map(x => x.s.n);
+
+  return '<!doctype html>\n<html lang="ko"><head><meta charset="utf-8">' +
+  '<meta name="viewport" content="width=device-width,initial-scale=1">' +
+  '<title>누적 성적 리포트 — ' + who + '</title><style>' +
+  'body{margin:0;background:#f4f6f9;color:#16191f;font:14px/1.65 -apple-system,"Segoe UI","Malgun Gothic",sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
+  '*{box-sizing:border-box}' +
+  '.sheet{width:210mm;min-height:297mm;margin:22px auto;background:#fff;padding:16mm 15mm 13mm;box-shadow:0 2px 20px rgba(20,30,60,.10)}' +
+  '@media print{body{background:#fff}.sheet{margin:0;box-shadow:none;width:auto;min-height:auto;padding:12mm}}' +
+  '@media (max-width:820px){.sheet{width:auto;margin:0;padding:18px 14px;box-shadow:none;min-height:0}}' +
+  '.top{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2.5px solid #16191f;padding-bottom:9px;gap:12px;flex-wrap:wrap}' +
+  '.top h1{font-size:21px;margin:0;letter-spacing:-.02em}.top .who{font-size:12.5px;color:#5f6875;margin-top:3px}' +
+  '.top .aca{text-align:right;font-size:11.5px;color:#98a1af;line-height:1.5}' +
+  'h2{font-size:14.5px;margin:22px 0 3px}h2 .n{display:inline-block;width:19px;height:19px;background:#16191f;color:#fff;border-radius:50%;font-size:11.5px;text-align:center;line-height:19px;margin-right:7px;vertical-align:1px}' +
+  '.lead{font-size:12.5px;color:#5f6875;margin:0 0 11px 26px}' +
+  'table{width:100%;border-collapse:collapse;font-size:13px}' +
+  'th,td{padding:7px 8px;border-bottom:1px solid #e4e8ef;text-align:left}' +
+  'th{font-size:11.5px;color:#5f6875;font-weight:600;background:#fafbfd;border-bottom:1.5px solid #e4e8ef}' +
+  'td.num{text-align:right;font-variant-numeric:tabular-nums}.skip{color:#98a1af}' +
+  '.bar{display:inline-block;width:132px;height:9px;background:#eaeef5;border-radius:99px;vertical-align:middle;overflow:hidden}' +
+  '.bar i{display:block;height:100%;border-radius:99px}' +
+  '.callout{border-left:3px solid #2f5fd8;background:#e8efff;padding:11px 13px;margin:9px 0 0;font-size:13px;border-radius:0 6px 6px 0}' +
+  '.caution{border-left:3px solid #c2760a;background:#fff8ec;padding:10px 13px;margin:11px 0 0;font-size:12.5px;border-radius:0 6px 6px 0;color:#7a4c06}' +
+  '.foot{margin-top:24px;padding-top:11px;border-top:1px solid #e4e8ef;font-size:11px;color:#98a1af;line-height:1.7}.foot b{color:#5f6875}' +
+  '.tagsm{display:inline-block;font-size:10.5px;padding:1px 6px;border-radius:99px;background:#eef1f6;color:#5f6875;margin-left:5px}' +
+  '.tagsm.few{background:#fff1d6;color:#8a5a06}' +
+  '</style></head><body><div class="sheet">' +
+  '<div class="top"><div><h1>누적 성적 리포트</h1><div class="who">' + who +
+    (meta && meta.track ? ' · ' + esc(meta.track) : '') + (meta && meta.campus ? ' · ' + esc(meta.campus) : '') +
+    ' &nbsp;|&nbsp; 전체 ' + SESSIONS.length + '회 중 <b>' + took + '회 응시</b></div></div>' +
+  '<div class="aca">' + new Date().toISOString().slice(0,10) + ' 발행</div></div>' +
+
+  '<h2><span class="n">1</span>회차별 위치</h2>' +
+  '<p class="lead">시험지가 회차마다 달라 <b>점수를 직접 비교할 수 없습니다.</b> 그래서 <b>그 회차를 같이 본 사람들 안에서의 위치</b>로 나란히 놓았습니다.</p>' +
+  '<table><tr><th style="width:52px">연도</th><th>시험지</th><th style="width:74px" class="num">맞은 문항</th><th style="width:150px">내 위치</th><th style="width:88px" class="num">직전 대비</th></tr>' +
+  trs + '</table>' +
+
+  '<h2><span class="n">2</span>누적 능력 — ' + took + '회를 합쳐서 봅니다</h2>' +
+  '<p class="lead">한 회차만 보면 문항이 적어 정답률이 크게 흔들립니다. 그래서 <b>응시한 ' + took + '회를 모두 합쳐</b> 계산했습니다. 괄호는 누적 문항 수입니다.</p>' +
+  '<table><tr><th style="width:110px">능력</th><th>누적 정답률</th><th style="width:104px" class="num">누적 문항</th><th style="width:96px">판단</th></tr>' +
+  axtr + '</table>' + thinNote +
+
+  '<h2><span class="n">3</span>다음 한 달, 여기부터</h2>' +
+  '<p class="lead">누적 문항이 충분해 믿을 수 있는 축 가운데 가장 낮은 곳입니다.</p>' + advBlock +
+
+  '<div class="foot"><b>이 리포트를 읽는 법</b><br>' +
+  '· <b>「상위 %」는 그 회차를 같이 본 사람들 안에서의 위치</b>입니다. 회차마다 응시 인원이 달라(' + pops.join('·') + '명) 서로 다른 모집단입니다.<br>' +
+  '· 회차마다 시험지가 다르므로 <b>맞은 문항 수를 회차끼리 비교하지 마세요.</b> 문항 수와 난이도가 다릅니다.<br>' +
+  '· 누적 능력은 응시한 <b>' + took + '회를 합산</b>한 값입니다. 미응시 회차는 어디에도 들어가지 않습니다 — 0점으로 세지 않습니다.<br>' +
+  '· 능력 구분은 기출 문항에 붙은 태그를 따릅니다. <b>누적 문항이 10개 미만인 축은 판단하지 않습니다.</b><br>' +
+  '· 이 값은 <b>학원 내부 진단</b>이며 대학 합격 여부를 예측하지 않습니다.</div>' +
+  '</div></body></html>';
+}
+
+function download(name, html){
+  const b = new Blob([html], {type:'text/html;charset=utf-8'});
+  const u = URL.createObjectURL(b);
+  const a = document.createElement('a');
+  a.href = u; a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(u); a.remove(); }, 1000);
+}
+function safeName(s){ return String(s).replace(/[\\/:*?"<>|]/g,'_').slice(0,40); }
+function saveReport(key, idx){
+  download('누적리포트_' + safeName(anon(key, idx)) + '.html', buildReport(key, idx));
+}
+async function saveAllReports(){
+  const keys = LASTKEYS.filter(k => SESSIONS.some(s => s.rows.has(k)));
+  if(!keys.length) return;
+  if(!confirm(keys.length + '명의 리포트를 각각 파일로 저장합니다.\n브라우저가 여러 번 물어볼 수 있습니다. 계속할까요?')) return;
+  for(let i=0;i<keys.length;i++){
+    saveReport(keys[i], LASTKEYS.indexOf(keys[i]));
+    await new Promise(r => setTimeout(r, 260));   /* 연속 저장을 브라우저가 막지 않게 텀을 둔다 */
+  }
+  toast(keys.length + '명 저장했습니다', 'ok');
 }
 
 /* ── 입력 ── */
@@ -450,6 +637,7 @@ $('file').onchange = e => { if(e.target.files.length) handleFiles([...e.target.f
 ['dragleave','drop'].forEach(ev => $('drop').addEventListener(ev, e => { e.preventDefault(); $('drop').classList.remove('on'); }));
 $('drop').addEventListener('drop', e => { if(e.dataTransfer.files.length) handleFiles([...e.dataTransfer.files]); });
 $('realname').onchange = render;
+$('saveall').onclick = saveAllReports;
 $('reset').onclick = () => { SESSIONS = []; ROSTER = new Map(); WARN = []; $('file').value=''; $('filelist').textContent=''; $('result').classList.add('hide'); };
 </script>
 </body>
