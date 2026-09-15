@@ -201,6 +201,29 @@ function pointMap(year, stem, nq){
 
 const norm = v => String(v == null ? '' : v).replace(/\s+/g,'').trim();
 
+/* 🔴 회차 정렬은 «학원 기출 모의고사 시행 순서»를 따른다 — 가나다순이 아니다.
+   근거: 사용자가 준 「9월·12월 기출모의고사 일정」(2026-09-15). 두 달의 패턴이 같다.
+     9월  건국 → 한국외대 → 인하 → 성균관 → 가톨릭 → 숭실 → 서울여대 → 한양 → 서강 → 가천 → 세종 → 홍익
+     12월 한국외대 → 아주 → 성균관 → 가톨릭 → 숭실 → 서울여대 → 한양 → 서강 → 가천 → 세종 → 홍익 → 중앙
+   앞머리만 다르고 «성균관 이후는 동일»하다. 인하(9월)와 아주(12월)가 같은 자리다.
+   연도별로 한 바퀴씩 돌므로 **연도 먼저 · 그 안에서 이 순서**로 세운다.
+   ⚠️ 일정이 바뀌면 이 배열만 고치면 된다. 여기 없는 학교는 뒤에 가나다순으로 붙는다. */
+const SCHOOL_ORDER = [
+  "건국대학교", "한국외국어대학교", "인하대학교", "아주대학교", "성균관대학교",
+  "가톨릭대학교", "숭실대학교", "서울여자대학교", "한양대학교", "서강대학교",
+  "가천대학교", "세종대학교", "홍익대학교", "중앙대학교"
+];
+function schoolRank(stem){
+  const i = SCHOOL_ORDER.indexOf(String(stem).split('_')[0]);
+  return i >= 0 ? i : 999;               /* 일정에 없는 학교는 뒤로 */
+}
+/* 회차 비교 — 연도 → 시행 순서 → (같은 학교의 여러 시험지는) 이름순 */
+function bySchedule(a, b){
+  return (Number(a.year) - Number(b.year))
+      || (schoolRank(a.stem) - schoolRank(b.stem))
+      || a.stem.localeCompare(b.stem, 'ko');
+}
+
 /* ── 엑셀 → 행 ── */
 function readFile(f){
   return new Promise((res,rej) => {
@@ -407,7 +430,7 @@ function ingest(fname, rows){
 }
 
 function finalize(msg){
-  SESSIONS.sort((a,b) => (a.year+a.stem).localeCompare(b.year+b.stem));
+  SESSIONS.sort(bySchedule);
   $('filelist').textContent = msg || '';
   render();
 }
