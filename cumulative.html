@@ -247,32 +247,88 @@ function readFile(f){
    ⚠️ 실제 파일 형식을 아직 못 봤다(2026-09-15 · 사용자가 「줄 것」이라고 했다).
       그래서 열 이름을 «찾아서» 읽는다. 실물이 오면 여기를 맞춘다. */
 function parsePercentile(rows){
-  const hdr = (rows[0] || []).map(c => String(c == null ? '' : c));
+  const h0 = (rows[0] || []).map(c => String(c == null ? '' : c));
   /* 문항 열이 많으면 OMR 파일이다 — 백분위 파일로 읽지 않는다(OMR 에 백분위 열이 붙어도 안전하게) */
-  if(hdr.filter(h => /^\d+$/.test(h.replace(/\s/g,''))).length >= 20) return null;
-  let name = -1;
-  const cols = [];
-  hdr.forEach((h,i) => {
+  if(h0.filter(h => /^\d+$/.test(h.replace(/\s/g,''))).length >= 20) return null;
+
+  /* 🔴 헤더가 «2단»이다 — 1행에 「1월·2월…」, 2행에 「성적·석차·백분위」가 온다.
+     두 줄을 겹쳐 읽어 각 「백분위」 열이 어느 달인지 잡는다. */
+  const h1 = (rows[1] || []).map(c => String(c == null ? '' : c));
+  /* 월 이름은 «병합 셀»이라 첫 칸에만 있고 나머지는 빈다 — 왼쪽 값으로 채워야 「1월 백분위」가 된다 */
+  let carry = '';
+  const top = h0.map(v => { const t = String(v || '').trim(); if(t) carry = t; return carry; });
+  const merged = top.map((a,i) => (a + ' ' + (h1[i] || '')).replace(/\s+/g,' ').trim());
+  const two = h1.some(x => /백분위/.test(x));
+  const head = two ? merged : h0;
+  const body = two ? 2 : 1;
+
+  let name = -1, tail = -1;
+  const sets = [];                                   /* {pct, rank, label} */
+  head.forEach((h,i) => {
     const t = h.replace(/\s/g,'');
     if(/이름|성명/.test(t) && name < 0) name = i;
-    else if(/백분위|percentile/i.test(t)) cols.push(i);
+    else if(/(연락처|전화|휴대).*(4자리|뒷)|뒷자리/.test(t) && tail < 0) tail = i;
+    else if(/백분위|percentile/i.test(t)){
+      /* 바로 왼쪽이 「석차」면 미응시 판별에 쓴다 */
+      const left = (head[i-1] || '').replace(/\s/g,'');
+      sets.push({pct:i, rank:/석차|등수|순위/.test(left) ? i-1 : -1, label:h.replace(/\s+/g,' ').trim()});
+    }
   });
-  if(name < 0 || !cols.length) return null;         /* 백분위 파일이 아니다 */
+  if(name < 0 || !sets.length) return null;          /* 백분위 파일이 아니다 */
+
+  /* 🔴 열마다 스케일이 다르다 — 어떤 달은 56.7(0~100), 어떤 달은 0.856(0~1)로 들어온다.
+     열 «전체»를 보고 판정한다. 값 하나만 보면 0.8 이 「0.8%」인지 「80%」인지 가를 수 없다. */
+  const scale = sets.map(s => {
+    const vs = [];
+    for(let i=body;i<rows.length;i++){
+      const v = Number((rows[i] || [])[s.pct]);
+      if(Number.isFinite(v) && v > 0) vs.push(v);
+    }
+    return vs.length && vs.every(v => v <= 1) ? 100 : 1;
+  });
 
   const out = new Map();
-  for(let i=1;i<rows.length;i++){
+  let flipped = 0, seen = 0;
+  for(let i=body;i<rows.length;i++){
     const row = rows[i] || [];
-    const key = norm(row[name]);
+    let nm = String(row[name] == null ? '' : row[name]).trim();
+    /* ⛔ 이름 칸에 재등록 명단 같은 «메모»가 들어 있는 행이 있다 — 길거나 줄바꿈이 있으면 버린다 */
+    if(!nm || nm.length > 12 || /[\n▣]/.test(nm)) continue;
+    const t4 = tail >= 0 ? String(row[tail] == null ? '' : row[tail]).trim() : '';
+    const key = norm(nm + (/^\d{4}$/.test(t4) ? t4 : ''));   /* OMR 의 「이름&핸폰뒷자리」와 같은 모양 */
     if(!key) continue;
-    const vs = cols.map(c => Number(row[c])).filter(v => Number.isFinite(v) && v > 0 && v <= 100);
+
+    const vs = [];
+    sets.forEach((s,si) => {
+      /* 🔴 석차 0 은 «미응시»다. 1등의 백분위도 0 이라 백분위만 보면 둘을 가를 수 없다. */
+      if(s.rank >= 0){
+        const rk = Number(row[s.rank]);
+        if(!Number.isFinite(rk) || rk <= 0) return;
+      }
+      let v = Number(row[s.pct]);
+      if(!Number.isFinite(v)) return;
+      v *= scale[si];
+      if(v < 0 || v > 100) return;
+      if(s.rank < 0 && v === 0) return;               /* 석차 열이 없으면 0 은 미응시로 본다 */
+      vs.push(v);
+    });
     if(!vs.length) continue;
-    /* 여러 회차가 실려 있으면 «상위 3회 평균» — 합격자 자료(mock_percentile)가 쓴 대표값과 같은 방식이라
-       서로 맞댈 때 자가 어긋나지 않는다. */
-    vs.sort((a,b) => b-a);
-    const top = vs.slice(0,3);
-    out.set(key, {val: Math.round(top.reduce((a,b) => a+b, 0)/top.length*10)/10, n: vs.length});
+    seen++;
+
+    /* 🔴 방향이 반대다 — 이 파일은 «석차 백분위»(1등=0.0%)이고,
+       합격자 자료(mock_percentile)는 «높을수록 상위»다(실측: 고려대 95.6 · 서경대 45.1).
+       그대로 맞대면 1등이 「도전」, 꼴찌가 「안정」이 된다. 뒤집어서 자를 맞춘다. */
+    const conv = vs.map(v => 100 - v);
+    flipped++;
+    /* 여러 회차면 «상위 3회 평균» — 합격자 자료가 쓴 대표값과 같은 방식이라 자가 어긋나지 않는다. */
+    conv.sort((a,b) => b-a);
+    const top = conv.slice(0,3);
+    out.set(key, {val: Math.round(top.reduce((a,b) => a+b, 0)/top.length*10)/10, n: conv.length});
   }
-  return out.size ? {map: out, cols: cols.map(i => hdr[i].replace(/\s+/g,' ').trim())} : null;
+  return out.size
+    ? {map: out, cols: sets.map(s => s.label), flipped, twoRow: two,
+       rescaled: scale.filter(x => x === 100).length, keyed: tail >= 0}
+    : null;
 }
 
 /* 합격자 분포 — 학교명이 캠퍼스 표기로 어긋나는 것을 흡수한다(`단국대학교(죽전)` → `단국대학교`). */
