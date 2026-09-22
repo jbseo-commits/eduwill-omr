@@ -875,6 +875,7 @@ function buildPersonalApp(key, idx){
   const named = !!D2.named;   /* 익명이면 이름 줄을 뺀다(사용자 결정 2026-09-22) */
   return '<!doctype html>\n<html lang="ko"><head><meta charset="utf-8">' +
 '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' +
+'\x3cscript>document.documentElement.className="js";\x3c/script>' +
 '<title>' + esc(D2.name) + ' 학생 분석</title><style>' +
  ':root{--bg:#090c13;--card:#151a25;--line:#262d3a;--ink:#f4f6fa;--dim:#a5afbf;--faint:#707b8b;' +
  '--pri:#6d92ff;--pri2:#a879ff;--cyan:#62e6d2;--ok:#2dd4a7;--warn:#f2b53d;--bad:#ff6b6b;' +
@@ -946,8 +947,10 @@ function buildPersonalApp(key, idx){
 '.up{color:var(--ok);font-weight:700}.dn{color:var(--bad);font-weight:700}' +
 '.miss{color:var(--faint)}' +
 /* 등장 */
- '.rise{opacity:0;transform:translateY(28px) scale(.985);transition:opacity .85s ease,transform .95s var(--ease)}' +
- '.rise.in{opacity:1;transform:none}' +
+ '.rise{transition:opacity .85s ease,transform .95s var(--ease)}' +
+ /* 🔴 JS 가 돌 때만 숨긴다 — Quick Look 처럼 JS 가 없는 뷰어에서도 본문이 보여야 한다 */
+ 'html.js .rise{opacity:0;transform:translateY(28px) scale(.985)}' +
+ 'html.js .rise.in{opacity:1;transform:none}' +
  '.rise.in .card>*{animation:cascade .62s var(--ease) both}' +
  '.rise.in .card>*:nth-child(2){animation-delay:.06s}.rise.in .card>*:nth-child(3){animation-delay:.12s}' +
  '.rise.in .card>*:nth-child(4){animation-delay:.18s}.rise.in .card>*:nth-child(5){animation-delay:.24s}' +
@@ -959,7 +962,7 @@ function buildPersonalApp(key, idx){
  '@keyframes pulse{0%,100%{opacity:.35;transform:scaleX(.65)}50%{opacity:1;transform:scaleX(1)}}' +
  '@keyframes driftA{to{transform:translate(55px,45px) scale(1.12)}}@keyframes driftB{to{transform:translate(-45px,-35px) scale(.9)}}' +
  '@media(max-width:380px){.summary{gap:6px}.summary span{font-size:11.5px;padding:7px 10px}}' +
- '@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body:before,body:after,.scrollcue i{animation:none}.intro-seq{animation:none!important}.rise{opacity:1;transform:none;transition:none}.rise.in .card>*{animation:none}.bar i{transition:none}}' +
+ '@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body:before,body:after,.scrollcue i{animation:none}.intro-seq{animation:none!important}html.js .rise{opacity:1;transform:none;transition:none}.rise.in .card>*{animation:none}.bar i{transition:none}}' +
  '</style></head><body><div class="progress"><i id="progressBar"></i></div><div class="wrap">' +
 
  '<header class="cover">' +
@@ -976,7 +979,7 @@ function buildPersonalApp(key, idx){
    '<div class="scrollcue intro-seq" style="--d:.82s"><i></i><span>아래로 이어집니다</span></div>' +
  '</header>' +
 
-'<div id="main"></div>' +
+'<div id="main">' + reportBody(D2) + '</div>' +
 '</div>' +
 
 '\x3cscript>var D=' + J + ';\x3c/script>' +
@@ -985,18 +988,122 @@ function buildPersonalApp(key, idx){
 }
 
 /* 개인 웹앱 안에서 도는 스크립트 — 문자열로 실어 보낸다 */
+/* 학생 리포트 본문 — 🔴 «생성 시점»에 찍는다.
+   2026-09-22: iOS 「파일」 앱 미리보기가 JS 를 제한해 본문이 통째로 안 그려졌다
+   (표지 한 장만 남아 「스크롤이 안 내려진다」로 보였다 · 사용자 실기기 확인).
+   ⛔ 이 코드를 학생 파일 쪽 스크립트로 되돌리지 마라 — 그 순간 같은 사고가 난다. */
+function reportBody(D){
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+function delta(d){return d==null?'<span class="miss">—</span>':d>0?'<span class="up">▲ '+d+'%p</span>':d<0?'<span class="dn">▼ '+(-d)+'%p</span>':'<span class="miss">변화 없음</span>';}
+
+function render(){
+ var h='';
+ var nm=D.named?esc(D.name.replace(/[0-9]+$/,''))+' 님':'';
+
+/* ① 맞이 + 지금 자리 */
+ h+='<section class="rise"><p class="eyebrow">지금 자리</p>';
+ if(D.pct){
+  h+='<h2>'+(nm?nm+'은 ':'')+'지금<br>전국 '+(D.pct.val>=50?'상위':'하위')+' '+Math.round(D.pct.val>=50?100-D.pct.val:D.pct.val)+'% 언저리입니다.</h2>';
+  h+='<p class="sub">전국 모의고사 백분위 '+D.pct.val+' · '+(D.pct.n>3?D.pct.n+'회 중 상위 3회 평균':D.pct.n+'회 평균')+'</p>';
+ }else{
+  var last=null;D.sess.forEach(function(s){if(!s.skip)last=s});
+  h+='<h2>'+(nm?nm+'의 기록':'지금까지의 기록')+'<br>'+D.took+'회를 모았습니다.</h2>';
+  h+='<p class="sub">'+(last?'가장 최근 회차는 '+last.n+'명 중 상위 '+last.top+'% 입니다.':'')+'</p>';
+ }
+ h+='</section>';
+
+/* ② 회차 추이 */
+ h+='<section class="rise"><p class="eyebrow">회차 추이</p><h2>어떻게 움직였나</h2>';
+ h+='<p class="sub">회차마다 시험지가 달라 <b>점수는 직접 비교할 수 없습니다.</b> 같이 본 사람들 안에서의 자리로 놓았습니다.</p><div class="card">';
+ D.sess.forEach(function(s){
+  var t=esc(s.stem.split('_')[0])+' <span class="n" style="color:var(--faint);font-size:12.5px">'+s.year+'</span>';
+  if(s.skip){h+='<div class="rowl"><span class="nm miss">'+t+'</span><span class="vv miss">응시하지 않음</span></div>';return;}
+  h+='<div class="rowl"><span class="nm">'+t+'</span><span class="vv"><b style="color:var(--ink)">상위 '+s.top+'%</b> <span style="color:var(--faint)">/'+s.n+'명</span> &nbsp;'+delta(s.delta)+'</span></div>';
+ });
+ h+='</div></section>';
+
+/* ③ 능력 6축 */
+ h+='<section class="rise"><p class="eyebrow">능력</p><h2>'+D.took+'회를 합쳐서 봤습니다</h2>';
+ h+='<p class="sub">한 회차만 보면 문항이 적어 크게 흔들립니다. 응시한 회차를 모두 합쳐 계산했습니다.</p><div class="card">';
+ var srt=D.axes.filter(function(a){return a.acc!=null}).slice().sort(function(a,b){return a.acc-b.acc});
+ srt.forEach(function(a){
+  var col=a.thin?'var(--warn)':(D.adv&&a.label===D.adv.low.label)?'var(--bad)':(D.adv&&a.label===D.adv.high.label)?'var(--ok)':'var(--dim)';
+  h+='<div class="axis"><div class="t"><span>'+esc(a.label)+(a.thin?' <span class="chip c-warn">표본 적음</span>':'')+'</span><b>'+a.acc+'%</b></div>';
+  h+='<div class="bar"><i data-w="'+a.acc+'" style="width:'+a.acc+'%;background:'+col+'"></i></div>';
+  h+='<div class="n">누적 '+a.nq+'문항</div></div>';
+ });
+ h+='</div>';
+ var thin=D.axes.filter(function(a){return a.thin&&a.acc!=null});
+ if(thin.length)h+='<div class="note">'+thin.map(function(a){return esc(a.label)}).join(' · ')+'은(는) 아직 <b>판단하지 않았습니다.</b> 합쳐도 문항이 적어 한 문제에 크게 흔들립니다.</div>';
+ h+='</section>';
+
+/* ④ 학교 궁합 */
+ if(D.good.length){
+  h+='<section class="rise"><p class="eyebrow">학교 궁합</p><h2>'+(nm?nm+'에게 <br>':'')+'잘 맞는 시험지</h2>';
+  h+='<p class="sub">학교마다 세게 묻는 능력이 다릅니다. <b>'+(nm?nm+'이':'내가')+' 약한 축을 덜 묻는 순서</b>입니다.</p><div class="card">';
+  D.good.forEach(function(o){h+=schHTML(o,true)});
+  h+='</div>';
+  if(D.bad.length){
+   h+='<h2 style="margin-top:30px">반대로, 부담이 큰 곳</h2>';
+   h+='<p class="sub">못 간다는 뜻이 아니라, <b>준비가 더 필요하다</b>는 뜻입니다.</p><div class="card">';
+   D.bad.forEach(function(o){h+=schHTML(o,false)});
+   h+='</div>';
+  }
+  h+='<div class="note">이것은 <b>합격 가능성이 아닙니다.</b> 「이 학교가 세게 묻는 것과 내가 약한 것이 얼마나 겹치는가」입니다. 합격선과 함께 보세요.</div>';
+  h+='</section>';
+ }
+
+/* ⑤ 처방 */
+ h+='<section class="rise"><p class="eyebrow">다음 한 달</p>';
+ if(D.adv){
+  var lo=D.adv.low,hi=D.adv.high;
+  h+='<h2>'+esc(lo.label)+'부터 잡으세요.</h2>';
+  h+='<p class="sub">믿을 수 있는 축 가운데 가장 낮습니다.</p>';
+  h+='<div class="card"><div style="font-size:15px"><b>'+esc(lo.label)+'</b> — '+lo.nq+'문항 중 '+Math.round(lo.acc/100*lo.nq)+'개를 맞혔습니다(<b>'+lo.acc+'%</b>).<br>';
+  h+='가장 나은 '+esc(hi.label)+'('+hi.acc+'%)과 <b>'+D.adv.gap+'%p</b> 차이입니다.</div>';
+  h+='<div class="quote">이 축의 문항을 다시 풀 때 <b>답의 근거가 된 문장에 밑줄</b>을 치고, 왜 그 문장이 답을 정하는지 한 줄로 적어 보세요.</div></div>';
+ }else{
+  h+='<h2>아직 처방을 내지 않았습니다.</h2><p class="sub">믿을 만한 축이 둘 미만입니다. 회차가 더 쌓이면 나옵니다.</p>';
+ }
+ h+='</section>';
+
+/* 꼬리말 */
+ h+='<div class="foot">· 「상위 %」는 그 회차를 같이 본 사람들 안에서의 자리입니다. 회차마다 응시 인원이 다릅니다.<br>';
+ h+='· 회차마다 시험지가 다르므로 맞은 문항 수를 회차끼리 비교하지 마세요.<br>';
+ h+='· 능력은 응시한 '+D.took+'회를 합산한 값입니다. 보지 않은 회차는 0점으로 세지 않습니다.<br>';
+ if(D.pct)h+='· 합격자 분포는 <b>붙은 사람들은 이랬다</b>는 기록이며 <b>이 백분위면 붙는다</b>가 아닙니다.<br>';
+ h+='· 학원 내부 진단이며 대학 합격 여부를 예측하지 않습니다. · '+esc(D.date)+'</div>';
+ return h;
+}
+
+function schHTML(o,good){
+ var b=o.bands,h='';
+ h+='<div class="sch"><div class="h"><span class="nm">'+esc(o.stem.replace(/_/g,' '))+'</span>';
+ h+='<span class="lv">등록자 평균 '+o.level.avg+'점</span></div>';
+ h+='<div class="why">'+(good?'그나마 신경 쓸 축은 ':'특히 걸리는 축은 ')+'<b style="color:'+(good?'var(--ok)':'var(--bad)')+'">'+esc(o.worst.axis)+'</b>' ;
+ h+=' — 이 학교가 세게 묻는 정도 '+o.worst.demand+'/100, 내 정답률 '+o.worst.acc+'%</div>';
+ if(b)h+='<div class="bands"><span class="chip c-ok">안정 '+b.safe+'</span><span class="chip c-warn">적정 '+b.fit+'</span><span class="chip c-bad">도전 '+b.chal+'</span><span class="chip c-dim">전체 '+b.total+'과</span></div>';
+ h+='</div>';
+ return h;
+}
+
+  return render();
+}
+
+/* 개인 웹앱 «안에서» 도는 스크립트 — 등장 애니메이션·진행바뿐이다(없어도 읽힌다) */
 const PERSONAL_JS = [
  "(function(){",
  "var $=function(i){return document.getElementById(i)};",
- "var esc=function(s){return String(s==null?'':s).replace(/[&<>\"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]})};",
 
  "function reveal(el){",
  " el.classList.add('in');",
  " var bars=el.querySelectorAll('.bar i');for(var i=0;i<bars.length;i++)bars[i].style.width=bars[i].getAttribute('data-w')+'%';",
  "}",
  "function start(){",
- " $('main').innerHTML=render();",
  " document.body.classList.add('ready');",
+  /* 폭은 이미 찍혀 있다 — 0 으로 되돌려야 등장할 때 차오른다 */
+ " var bars=document.querySelectorAll('.bar i');",
+ " for(var b=0;b<bars.length;b++)bars[b].style.width='0';",
  " var sections=document.querySelectorAll('.rise');",
  " if('IntersectionObserver' in window){",
  "  var io=new IntersectionObserver(function(es){for(var i=0;i<es.length;i++){if(es[i].isIntersecting){reveal(es[i].target);io.unobserve(es[i].target);}}},{threshold:.12,rootMargin:'0px 0px -6% 0px'});",
@@ -1006,99 +1113,6 @@ const PERSONAL_JS = [
  " window.addEventListener('scroll',progress,{passive:true});progress();",
  " window.scrollTo(0,0);",
  "}",
-
-"function delta(d){return d==null?'<span class=\"miss\">—</span>':d>0?'<span class=\"up\">▲ '+d+'%p</span>':d<0?'<span class=\"dn\">▼ '+(-d)+'%p</span>':'<span class=\"miss\">변화 없음</span>';}",
-
-"function render(){",
-" var h='';",
-" var nm=D.named?esc(D.name.replace(/[0-9]+$/,''))+' 님':'';",
-
-/* ① 맞이 + 지금 자리 */
-" h+='<section class=\"rise\"><p class=\"eyebrow\">지금 자리</p>';",
-" if(D.pct){",
-"  h+='<h2>'+(nm?nm+'은 ':'')+'지금<br>전국 '+(D.pct.val>=50?'상위':'하위')+' '+Math.round(D.pct.val>=50?100-D.pct.val:D.pct.val)+'% 언저리입니다.</h2>';",
-"  h+='<p class=\"sub\">전국 모의고사 백분위 '+D.pct.val+' · '+(D.pct.n>3?D.pct.n+'회 중 상위 3회 평균':D.pct.n+'회 평균')+'</p>';",
-" }else{",
-"  var last=null;D.sess.forEach(function(s){if(!s.skip)last=s});",
-"  h+='<h2>'+(nm?nm+'의 기록':'지금까지의 기록')+'<br>'+D.took+'회를 모았습니다.</h2>';",
-"  h+='<p class=\"sub\">'+(last?'가장 최근 회차는 '+last.n+'명 중 상위 '+last.top+'% 입니다.':'')+'</p>';",
-" }",
-" h+='</section>';",
-
-/* ② 회차 추이 */
-" h+='<section class=\"rise\"><p class=\"eyebrow\">회차 추이</p><h2>어떻게 움직였나</h2>';",
-" h+='<p class=\"sub\">회차마다 시험지가 달라 <b>점수는 직접 비교할 수 없습니다.</b> 같이 본 사람들 안에서의 자리로 놓았습니다.</p><div class=\"card\">';",
-" D.sess.forEach(function(s){",
-"  var t=esc(s.stem.split('_')[0])+' <span class=\"n\" style=\"color:var(--faint);font-size:12.5px\">'+s.year+'</span>';",
-"  if(s.skip){h+='<div class=\"rowl\"><span class=\"nm miss\">'+t+'</span><span class=\"vv miss\">응시하지 않음</span></div>';return;}",
-"  h+='<div class=\"rowl\"><span class=\"nm\">'+t+'</span><span class=\"vv\"><b style=\"color:var(--ink)\">상위 '+s.top+'%</b> <span style=\"color:var(--faint)\">/'+s.n+'명</span> &nbsp;'+delta(s.delta)+'</span></div>';",
-" });",
-" h+='</div></section>';",
-
-/* ③ 능력 6축 */
-" h+='<section class=\"rise\"><p class=\"eyebrow\">능력</p><h2>'+D.took+'회를 합쳐서 봤습니다</h2>';",
-" h+='<p class=\"sub\">한 회차만 보면 문항이 적어 크게 흔들립니다. 응시한 회차를 모두 합쳐 계산했습니다.</p><div class=\"card\">';",
-" var srt=D.axes.filter(function(a){return a.acc!=null}).slice().sort(function(a,b){return a.acc-b.acc});",
-" srt.forEach(function(a){",
-"  var col=a.thin?'var(--warn)':(D.adv&&a.label===D.adv.low.label)?'var(--bad)':(D.adv&&a.label===D.adv.high.label)?'var(--ok)':'var(--dim)';",
-"  h+='<div class=\"axis\"><div class=\"t\"><span>'+esc(a.label)+(a.thin?' <span class=\"chip c-warn\">표본 적음</span>':'')+'</span><b>'+a.acc+'%</b></div>';",
-"  h+='<div class=\"bar\"><i data-w=\"'+a.acc+'\" style=\"background:'+col+'\"></i></div>';",
-"  h+='<div class=\"n\">누적 '+a.nq+'문항</div></div>';",
-" });",
-" h+='</div>';",
-" var thin=D.axes.filter(function(a){return a.thin&&a.acc!=null});",
-" if(thin.length)h+='<div class=\"note\">'+thin.map(function(a){return esc(a.label)}).join(' · ')+'은(는) 아직 <b>판단하지 않았습니다.</b> 합쳐도 문항이 적어 한 문제에 크게 흔들립니다.</div>';",
-" h+='</section>';",
-
-/* ④ 학교 궁합 */
-" if(D.good.length){",
-"  h+='<section class=\"rise\"><p class=\"eyebrow\">학교 궁합</p><h2>'+nm+' 님에게 <br>잘 맞는 시험지</h2>';",
-"  h+='<p class=\"sub\">학교마다 세게 묻는 능력이 다릅니다. <b>'+nm+' 님이 약한 축을 덜 묻는 순서</b>입니다.</p><div class=\"card\">';",
-"  D.good.forEach(function(o){h+=schHTML(o,true)});",
-"  h+='</div>';",
-"  if(D.bad.length){",
-"   h+='<h2 style=\"margin-top:30px\">반대로, 부담이 큰 곳</h2>';",
-"   h+='<p class=\"sub\">못 간다는 뜻이 아니라, <b>준비가 더 필요하다</b>는 뜻입니다.</p><div class=\"card\">';",
-"   D.bad.forEach(function(o){h+=schHTML(o,false)});",
-"   h+='</div>';",
-"  }",
-"  h+='<div class=\"note\">이것은 <b>합격 가능성이 아닙니다.</b> 「이 학교가 세게 묻는 것과 내가 약한 것이 얼마나 겹치는가」입니다. 합격선과 함께 보세요.</div>';",
-"  h+='</section>';",
-" }",
-
-/* ⑤ 처방 */
-" h+='<section class=\"rise\"><p class=\"eyebrow\">다음 한 달</p>';",
-" if(D.adv){",
-"  var lo=D.adv.low,hi=D.adv.high;",
-"  h+='<h2>'+esc(lo.label)+'부터 잡으세요.</h2>';",
-"  h+='<p class=\"sub\">믿을 수 있는 축 가운데 가장 낮습니다.</p>';",
-"  h+='<div class=\"card\"><div style=\"font-size:15px\"><b>'+esc(lo.label)+'</b> — '+lo.nq+'문항 중 '+Math.round(lo.acc/100*lo.nq)+'개를 맞혔습니다(<b>'+lo.acc+'%</b>).<br>';",
-"  h+='가장 나은 '+esc(hi.label)+'('+hi.acc+'%)과 <b>'+D.adv.gap+'%p</b> 차이입니다.</div>';",
-"  h+='<div class=\"quote\">이 축의 문항을 다시 풀 때 <b>답의 근거가 된 문장에 밑줄</b>을 치고, 왜 그 문장이 답을 정하는지 한 줄로 적어 보세요.</div></div>';",
-" }else{",
-"  h+='<h2>아직 처방을 내지 않았습니다.</h2><p class=\"sub\">믿을 만한 축이 둘 미만입니다. 회차가 더 쌓이면 나옵니다.</p>';",
-" }",
-" h+='</section>';",
-
-/* 꼬리말 */
-" h+='<div class=\"foot\">· 「상위 %」는 그 회차를 같이 본 사람들 안에서의 자리입니다. 회차마다 응시 인원이 다릅니다.<br>';",
-" h+='· 회차마다 시험지가 다르므로 맞은 문항 수를 회차끼리 비교하지 마세요.<br>';",
-" h+='· 능력은 응시한 '+D.took+'회를 합산한 값입니다. 보지 않은 회차는 0점으로 세지 않습니다.<br>';",
-" if(D.pct)h+='· 합격자 분포는 <b>붙은 사람들은 이랬다</b>는 기록이며 <b>이 백분위면 붙는다</b>가 아닙니다.<br>';",
-" h+='· 학원 내부 진단이며 대학 합격 여부를 예측하지 않습니다. · '+esc(D.date)+'</div>';",
-" return h;",
-"}",
-
-"function schHTML(o,good){",
-" var b=o.bands,h='';",
-" h+='<div class=\"sch\"><div class=\"h\"><span class=\"nm\">'+esc(o.stem.replace(/_/g,' '))+'</span>';",
-" h+='<span class=\"lv\">등록자 평균 '+o.level.avg+'점</span></div>';",
-" h+='<div class=\"why\">'+(good?'그나마 신경 쓸 축은 ':'특히 걸리는 축은 ')+'<b style=\"color:'+(good?'var(--ok)':'var(--bad)')+'\">'+esc(o.worst.axis)+'</b>' ;",
-" h+=' — 이 학교가 세게 묻는 정도 '+o.worst.demand+'/100, 내 정답률 '+o.worst.acc+'%</div>';",
-" if(b)h+='<div class=\"bands\"><span class=\"chip c-ok\">안정 '+b.safe+'</span><span class=\"chip c-warn\">적정 '+b.fit+'</span><span class=\"chip c-bad\">도전 '+b.chal+'</span><span class=\"chip c-dim\">전체 '+b.total+'과</span></div>';",
-" h+='</div>';",
-" return h;",
-"}",
 
  "start();",
  "})();"
