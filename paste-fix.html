@@ -51,9 +51,9 @@ ol{margin:6px 0 0;padding-left:20px;color:var(--muted)}
   </div>
   <div id="out"></div>
   <ol>
-    <li>엑셀이 붙여넣기용 HTML에서 선 대부분을 <b>&lt;style&gt; 클래스</b>에 넣고, 칸에는 <code>border-top:none</code> 같은 «지우기»만 직접 적는다.</li>
-    <li>인트라넷 편집기는 &lt;style&gt;을 버리고 칸에 직접 적힌 스타일만 남긴다 → 클래스로 그린 선은 사라지고, 칸에 직접 적힌 선(병합 칸·옆 칸 경계 등)만 살아남는다.</li>
-    <li>이 도구는 모든 선을 칸마다 <b>직접(inline)</b> 적고, 0.5pt·windowtext(자동 색) 같은 깨지기 쉬운 값을 1px 검정 등 확정값으로 바꾼다.</li>
+    <li>엑셀 테두리 색이 <b>«자동»·테마색</b>이면 복사 HTML에 <code>windowtext</code>(시스템 색)로 적힌다. 지결 편집기는 이 값을 버려 그 선이 통째로 사라진다. 색을 «검정»으로 직접 지정한 선은 <code>black</code>으로 적혀 살아남는다.</li>
+    <li>그래서 한 표 안에서도 직접 지정한 선만 살고 자동색 선은 죽는다. 엑셀에서 고치려면: 범위 선택 → Ctrl+1 → 테두리 → 색 «검정» → 윤곽선·안쪽 다시 적용.</li>
+    <li>이 도구는 모든 선을 칸마다 <b>직접(inline)</b> 적고, windowtext·0.5pt 같은 깨지기 쉬운 값을 1px 검정 등 확정값으로 바꾼다.</li>
   </ol>
 </div>
 </main>
