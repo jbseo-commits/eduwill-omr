@@ -50,6 +50,9 @@ ol{margin:6px 0 0;padding-left:20px;color:var(--muted)}
     <span id="msg"></span>
   </div>
   <div id="out"></div>
+  <details style="margin-top:10px"><summary>진단용: 엑셀이 넘긴 원본 HTML (문제 생기면 이 내용 전체 복사해서 전달)</summary>
+    <textarea id="raw" readonly style="width:100%;height:200px;font:12px monospace;margin-top:6px"></textarea>
+  </details>
   <ol>
     <li>엑셀은 네 변이 <b>똑같은</b> 테두리(예: 모두 얇은 검정)인 칸을 복사할 때 <code>border:.5pt solid black</code> 한 줄(축약형)로 적는다. 지결 편집기는 이 축약형을 버려 그 칸의 선이 통째로 사라진다.</li>
     <li>변마다 다른 칸(병합 칸, 한쪽만 굵은 칸 등)은 <code>border-top:…</code>처럼 변별로 적혀 살아남는다 → 한 표 안에서 선이 들쭉날쭉. 엑셀에서 고치려면 칸마다 한 변이라도 색·굵기를 다르게(예: 안쪽 세로선만 RGB 1,1,1) 주면 된다.</li>
@@ -79,6 +82,7 @@ ol{margin:6px 0 0;padding-left:20px;color:var(--muted)}
       return;
     }
     lastHtml = html;
+    document.getElementById('raw').value = html;
     convert(html);
   });
   drop.addEventListener('input', function(){ drop.textContent = '여기를 클릭하고 Ctrl+V'; });
