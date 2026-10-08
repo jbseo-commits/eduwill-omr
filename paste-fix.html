@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>엑셀 표 선 고정기</title>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#fff; --text:#1f2328; --muted:#6b7280; --line:#d5d9e0;
+  --pri:#4f46e5; --pri-d:#4338ca; --ok:#059669; --warn:#b45309;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font:14px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif}
+main{max-width:1100px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:20px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px}
+.step{font-weight:700;margin:0 0 8px}
+#drop{min-height:90px;border:2px dashed var(--line);border-radius:8px;display:flex;align-items:center;
+  justify-content:center;color:var(--muted);text-align:center;padding:12px;outline:none;cursor:text}
+#drop:focus{border-color:var(--pri);color:var(--pri)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+button{background:var(--pri);color:#fff;border:0;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+button:hover{background:var(--pri-d)}
+button:disabled{background:#a5a7b5;cursor:default}
+label{user-select:none;cursor:pointer}
+#msg{font-weight:700}
+#msg.ok{color:var(--ok)} #msg.warn{color:var(--warn)}
+#out{overflow:auto;background:#fff;padding:8px;border:1px solid var(--line);border-radius:8px;min-height:40px}
+ol{margin:6px 0 0;padding-left:20px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<h1>엑셀 표 선 고정기</h1>
+<p class="sub">엑셀 표를 인트라넷(지결)에 붙여넣으면 선이 일부만 남는 문제를 고친다. 처리는 이 브라우저 안에서만 한다(외부 전송 없음).</p>
+
+<div class="card">
+  <p class="step">① 엑셀에서 범위 복사(Ctrl+C) → 아래 칸 클릭 → Ctrl+V</p>
+  <div id="drop" contenteditable="true" spellcheck="false">여기를 클릭하고 Ctrl+V</div>
+</div>
+
+<div class="card">
+  <p class="step">② 확인 후 복사 → 인트라넷에 Ctrl+V</p>
+  <div class="row">
+    <button id="copy" disabled>선 고정된 표 복사</button>
+    <label><input type="checkbox" id="allGrid"> 모든 칸에 선 넣기(격자)</label>
+    <span id="msg"></span>
+  </div>
+  <div id="out"></div>
+  <ol>
+    <li>엑셀이 붙여넣기용 HTML에서 선 대부분을 <b>&lt;style&gt; 클래스</b>에 넣고, 칸에는 <code>border-top:none</code> 같은 «지우기»만 직접 적는다.</li>
+    <li>인트라넷 편집기는 &lt;style&gt;을 버리고 칸에 직접 적힌 스타일만 남긴다 → 클래스로 그린 선은 사라지고, 칸에 직접 적힌 선(병합 칸·옆 칸 경계 등)만 살아남는다.</li>
+    <li>이 도구는 모든 선을 칸마다 <b>직접(inline)</b> 적고, 0.5pt·windowtext(자동 색) 같은 깨지기 쉬운 값을 1px 검정 등 확정값으로 바꾼다.</li>
+  </ol>
+</div>
+</main>
+
+<script>
+(function(){
+  var drop = document.getElementById('drop');
+  var out = document.getElementById('out');
+  var copyBtn = document.getElementById('copy');
+  var allGrid = document.getElementById('allGrid');
+  var msg = document.getElementById('msg');
+  var lastHtml = null;
+
+  function say(t, cls){ msg.textContent = t; msg.className = cls || ''; }
+
+  drop.addEventListener('paste', function(e){
+    e.preventDefault();
+    var cd = e.clipboardData || window.clipboardData;
+    var html = cd && cd.getData('text/html');
+    drop.textContent = '여기를 클릭하고 Ctrl+V';
+    if (!html || !/<table/i.test(html)) {
+      say('표 형식(HTML)이 아니다. 엑셀에서 셀 범위를 복사했는지 확인.', 'warn');
+      return;
+    }
+    lastHtml = html;
+    convert(html);
+  });
+  drop.addEventListener('input', function(){ drop.textContent = '여기를 클릭하고 Ctrl+V'; });
+  allGrid.addEventListener('change', function(){ if (lastHtml) convert(lastHtml); });
+
+  // 엑셀 HTML 을 숨은 iframe 에 실제로 렌더 → 브라우저가 클래스·인라인 스타일을 합친 «계산된 값»을 읽는다.
+  function convert(html){
+    var ifr = document.createElement('iframe');
+    ifr.setAttribute('sandbox', 'allow-same-origin');
+    ifr.style.cssText = 'position:absolute;left:-10000px;top:0;width:3000px;height:2000px;border:0';
+    document.body.appendChild(ifr);
+    ifr.onload = function(){
+      try {
+        var doc = ifr.contentDocument;
+        var table = doc.querySelector('table');
+        if (!table) throw new Error('표 없음');
+        var res = rebuild(table, ifr.contentWindow);
+        out.innerHTML = '';
+        out.appendChild(res.table);
+        copyBtn.disabled = false;
+        say('변환 완료 — ' + res.rows + '행 × ' + res.cols + '열, 선 ' + res.edges + '개 고정' + (res.hidden ? ', 숨긴 행/열 ' + res.hidden + '개 제외' : ''), 'ok');
+      } catch (err) {
+        say('변환 실패: ' + err.message, 'warn');
+      } finally {
+        document.body.removeChild(ifr);
+      }
+    };
+    ifr.srcdoc = html;
+  }
+
+  function px(v){ var n = parseFloat(v); return isNaN(n) ? 0 : n; }
+  function isClear(c){ return !c || c === 'transparent' || /rgba\(\s*\d+,\s*\d+,\s*\d+,\s*0\s*\)/.test(c); }
+
+  function readEdge(cs, side){
+    var st = cs.getPropertyValue('border-' + side + '-style');
+    var w = px(cs.getPropertyValue('border-' + side + '-width'));
+    if (!st || st === 'none' || st === 'hidden' || w <= 0) return null;
+    return { style: st, w: w, color: cs.getPropertyValue('border-' + side + '-color') };
+  }
+  // 0.5pt(≈0.67px) 같은 소수 픽셀은 편집기·배율에 따라 0으로 깎이므로 정수 px 로 고정
+  function edgeCss(e){
+    if (!e) return 'none';
+    var w = e.w >= 1.2 ? 2 : 1, st = e.style;
+    if (st === 'double') w = 3;
+    if (st === 'groove' || st === 'ridge' || st === 'inset' || st === 'outset') st = 'solid';
+    var col = e.color;
+    if (!col || /^rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)$/.test(col)) col = '#000000';
+    return w + 'px ' + st + ' ' + col;
+  }
+  function stronger(a, b){ if (!a) return b; if (!b) return a; return b.w > a.w ? b : a; }
+
+  function rebuild(table, win){
+    var grid = [], cells = [], hidden = 0;
+    var rows = Array.prototype.filter.call(table.rows, function(tr){
+      if (win.getComputedStyle(tr).display === 'none' || tr.getBoundingClientRect().height === 0) { hidden++; return false; }
+      return true;
+    });
+    // 행/열 병합을 반영한 격자
+    rows.forEach(function(tr, r){
+      grid[r] = grid[r] || [];
+      var c = 0;
+      Array.prototype.forEach.call(tr.cells, function(td){
+        while (grid[r][c] !== undefined) c++;
+        var cs = win.getComputedStyle(td);
+        var rs = Math.max(1, td.rowSpan | 0), csn = Math.max(1, td.colSpan | 0);
+        var rect = td.getBoundingClientRect();
+        var info = { td: td, cs: cs, r: r, c: c, rs: rs, cs_: csn, w: rect.width, h: rect.height,
+          hide: cs.display === 'none' || rect.width === 0,
+          e: { top: readEdge(cs, 'top'), right: readEdge(cs, 'right'), bottom: readEdge(cs, 'bottom'), left: readEdge(cs, 'left') } };
+        var idx = cells.push(info) - 1;
+        for (var i = 0; i < rs; i++) {
+          grid[r + i] = grid[r + i] || [];
+          for (var j = 0; j < csn; j++) grid[r + i][c + j] = idx;
+        }
+        c += csn;
+      });
+    });
+    var nRows = grid.length, nCols = 0;
+    grid.forEach(function(g){ nCols = Math.max(nCols, g.length); });
+
+    // 숨긴 열: 그 열의 모든 단일칸이 폭 0
+    var colW = [], colHidden = [];
+    for (var c = 0; c < nCols; c++) {
+      var w = null, anySingle = false;
+      for (var r = 0; r < nRows; r++) {
+        var ci = grid[r][c]; if (ci === undefined) continue;
+        var k = cells[ci];
+        if (k.cs_ === 1) { anySingle = true; if (!k.hide) { w = Math.max(w || 0, k.w); } }
+      }
+      colW[c] = w || 0;
+      colHidden[c] = anySingle && w === null;
+      if (colHidden[c]) hidden++;
+    }
+
+    // 경계 공유: 이웃 칸 한쪽에만 선이 있어도 양쪽 칸 모두에 직접 적는다
+    var edges = 0;
+    function neighborEdge(k, side){
+      var best = null, r, c;
+      if (side === 'right' || side === 'left') {
+        c = side === 'right' ? k.c + k.cs_ : k.c - 1;
+        if (c < 0 || c >= nCols) return null;
+        for (r = k.r; r < k.r + k.rs; r++) { var n = grid[r] && grid[r][c]; if (n !== undefined && cells[n] !== k) best = stronger(best, cells[n].e[side === 'right' ? 'left' : 'right']); }
+      } else {
+        r = side === 'bottom' ? k.r + k.rs : k.r - 1;
+        if (r < 0 || r >= nRows) return null;
+        for (c = k.c; c < k.c + k.cs_; c++) { var m = grid[r][c]; if (m !== undefined && cells[m] !== k) best = stronger(best, cells[m].e[side === 'bottom' ? 'top' : 'bottom']); }
+      }
+      return best;
+    }
+    var gridEdge = { style: 'solid', w: 1, color: '#000000' };
+    var finalE = cells.map(function(k){
+      var f = {};
+      ['top', 'right', 'bottom', 'left'].forEach(function(s){
+        var e = stronger(k.e[s], neighborEdge(k, s));
+        if (!e && allGrid.checked) e = gridEdge;
+        if (e) edges++;
+        f[s] = e;
+      });
+      return f;
+    });
+
+    var T = document.createElement('table');
+    T.setAttribute('border', '0');
+    T.setAttribute('cellspacing', '0');
+    T.setAttribute('cellpadding', '0');
+    var totalW = 0;
+    var cg = document.createElement('colgroup');
+    for (c = 0; c < nCols; c++) {
+      if (colHidden[c]) continue;
+      var col = document.createElement('col');
+      var cw = Math.round(colW[c] || 64);
+      col.setAttribute('width', cw);
+      col.style.width = cw + 'px';
+      cg.appendChild(col);
+      totalW += cw;
+    }
+    T.appendChild(cg);
+    T.style.cssText = 'border-collapse:collapse;table-layout:fixed;width:' + totalW + 'px;font-family:\'맑은 고딕\',\'Malgun Gothic\',sans-serif';
+    T.setAttribute('width', totalW);
+    var tb = document.createElement('tbody');
+    T.appendChild(tb);
+
+    var copyProps = ['color', 'font-size', 'font-weight', 'font-style', 'font-family', 'text-align', 'vertical-align', 'text-decoration-line', 'white-space'];
+    var srcRowsLen = rows.length;
+    for (var r2 = 0; r2 < srcRowsLen; r2++) {
+      var tr = document.createElement('tr');
+      var rh = 0;
+      Array.prototype.forEach.call(rows[r2].cells, function(td){
+        var idx = -1;
+        for (var q = 0; q < cells.length; q++) if (cells[q].td === td) { idx = q; break; }
+        var k = cells[idx];
+        if (!k || k.hide) return;
+        // 숨긴 열 만큼 colspan 축소
+        var span = 0;
+        for (var j = k.c; j < k.c + k.cs_; j++) if (!colHidden[j]) span++;
+        if (span === 0) return;
+        var o = document.createElement('td');
+        if (span > 1) o.colSpan = span;
+        if (k.rs > 1) o.rowSpan = k.rs;
+        var st = [];
+        var f = finalE[idx];
+        ['top', 'right', 'bottom', 'left'].forEach(function(s){ st.push('border-' + s + ':' + edgeCss(f[s])); });
+        copyProps.forEach(function(p){
+          var v = k.cs.getPropertyValue(p);
+          if (!v) return;
+          if (p === 'text-decoration-line') { if (v !== 'none') st.push('text-decoration:' + v); return; }
+          if (p === 'white-space' && v === 'nowrap') { st.push('white-space:nowrap'); return; }
+          if (p === 'white-space') return;
+          if (p === 'text-align') v = v.replace('-webkit-', '');
+          st.push(p + ':' + v);
+        });
+        var bg = k.cs.getPropertyValue('background-color');
+        if (!isClear(bg)) { st.push('background-color:' + bg); o.setAttribute('bgcolor', rgbHex(bg)); }
+        st.push('padding:1px 3px');
+        if (k.rs === 1) { st.push('height:' + Math.round(k.h) + 'px'); rh = Math.max(rh, k.h); }
+        o.setAttribute('style', st.join(';'));
+        // 줄바꿈은 살리고 엑셀 전용 태그·클래스는 버린다
+        var txt = k.td.innerText.replace(/ /g, ' ');
+        if (/\S/.test(txt)) {
+          txt.replace(/\n+$/, '').split('\n').forEach(function(line, i){
+            if (i) o.appendChild(document.createElement('br'));
+            o.appendChild(document.createTextNode(line));
+          });
+        } else {
+          o.innerHTML = '&nbsp;';
+        }
+        tr.appendChild(o);
+      });
+      if (rh) tr.style.height = Math.round(rh) + 'px';
+      tb.appendChild(tr);
+    }
+    return { table: T, rows: nRows, cols: nCols - colHidden.filter(Boolean).length, edges: edges, hidden: hidden };
+  }
+
+  function rgbHex(c){
+    var m = c.match(/(\d+)\D+(\d+)\D+(\d+)/);
+    if (!m) return c;
+    return '#' + [m[1], m[2], m[3]].map(function(x){ return ('0' + (+x).toString(16)).slice(-2); }).join('');
+  }
+
+  copyBtn.addEventListener('click', function(){
+    var t = out.querySelector('table');
+    if (!t) return;
+    var html = '<html><body><!--StartFragment-->' + t.outerHTML + '<!--EndFragment--></body></html>';
+    var plain = t.innerText;
+    function legacy(){
+      var sel = window.getSelection(), range = document.createRange();
+      range.selectNode(t);
+      sel.removeAllRanges(); sel.addRange(range);
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      sel.removeAllRanges();
+      say(ok ? '복사됨 — 인트라넷에 Ctrl+V' : '자동 복사 실패 — 표를 드래그해서 Ctrl+C', ok ? 'ok' : 'warn');
+    }
+    if (navigator.clipboard && window.ClipboardItem) {
+      navigator.clipboard.write([new ClipboardItem({
+        'text/html': new Blob([html], { type: 'text/html' }),
+        'text/plain': new Blob([plain], { type: 'text/plain' })
+      })]).then(function(){ say('복사됨 — 인트라넷에 Ctrl+V', 'ok'); }, legacy);
+    } else legacy();
+  });
+})();
+</script>
+</body>
+</html>

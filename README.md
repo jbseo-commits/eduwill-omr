@@ -25,6 +25,7 @@ https://jbseo-commits.github.io/eduwill-omr/omr.html      ← 진단기(기본�
 | `adm_expand.py` | (이 저장소에서 직접 작성) | 입시결과 커버리지 확장 패치 |
 | `gap_fix.pl` | (이 저장소에서 직접 작성) | 「목표까지 몇 문항」 단위 버그 패치 |
 | `dist_fix.pl` | (이 저장소에서 직접 작성) | 얇은 축 약점 보정 + 학과명 오타 교정 |
+| `paste-fix.html` | (이 저장소에서 직접 작성) | 엑셀 표 → 인트라넷(지결) 붙여넣기 시 선 사라짐 방지 변환기 |
 
 🔴 **`index.html`·`adm_expand.py`·`gap_fix.pl`·`dist_fix.pl` 은 원본이 여기에 있다.** `배포.sh` 가 덮어쓰지 않으므로 직접 고친다.
 `omr*.html` 둘은 `배포.sh` 가 `exam-qa/app/` 에서 **복사해 덮어쓴다** — 여기서 고치지 말 것.
