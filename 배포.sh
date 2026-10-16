@@ -37,6 +37,13 @@ for f in "${!MAP[@]}"; do
 done
 
 echo
+echo "== 2a. 엑셀 차트·빈 시트 건너뛰기 =="
+# 원본 복사 뒤에 실행한다. 이미 적용된 파일은 그대로 두며,
+# 대상이 달라졌으면 어느 파일도 고치기 전에 중단한다.
+perl "$DIST/workbook_sheet_fix.pl" "$DIST/omr.html" "$DIST/omr-v2.html" "$DIST/cumulative.html" || {
+  echo "  🔴 엑셀 시트 선택 패치에 실패했다."; exit 1; }
+
+echo
 echo "== 3. 입시결과 커버리지 확인 =="
 # 📌 2026-09-02 에 «사후 패치»에서 «확인»으로 바뀌었다 — 빌더(build_omr_app_v2.py:build_admissions)가
 #    이제 admissions_workbook.json 을 직접 읽는다. 락이 풀려 원본을 고칠 수 있게 됐기 때문이다.
@@ -123,7 +130,7 @@ fi
 echo
 echo "== 7. 커밋 · 푸시 =="
 cd "$DIST" || exit 1
-git add index.html omr.html omr-v2.html .nojekyll robots.txt README.md .gitattributes adm_expand.py gap_fix.pl dist_fix.pl 배포.sh
+git add index.html omr.html omr-v2.html cumulative.html .nojekyll robots.txt README.md .gitattributes adm_expand.py gap_fix.pl dist_fix.pl workbook_sheet_fix.pl tests/test_workbook_sheets.cjs 배포.sh
 if git diff --cached --quiet; then
   echo "  변경 없음 — 커밋 생략."
 else

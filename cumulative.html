@@ -226,14 +226,27 @@ function bySchedule(a, b){
 }
 
 /* ── 엑셀 → 행 ── */
+// Workbook sheet selection start
+function workbookRows(wb,options){
+ for(const name of wb.SheetNames){
+  const ws=wb.Sheets[name];
+  if(!ws||ws['!type']==='chart')continue;
+  const rows=XLSX.utils.sheet_to_json(ws,options);
+  let populated=0;
+  for(const row of rows){
+   if(row.some(cell=>cell!=null&&String(cell).trim()!=='')&&++populated===2)return rows;
+  }
+ }
+ return [];
+}
+// Workbook sheet selection end
 function readFile(f){
   return new Promise((res,rej) => {
     const r = new FileReader();
     r.onload = e => {
       try{
         const wb = XLSX.read(new Uint8Array(e.target.result), {type:'array'});
-        const ws = wb.Sheets[wb.SheetNames[0]];
-        res(XLSX.utils.sheet_to_json(ws, {header:1, raw:true, defval:null}));
+        res(workbookRows(wb, {header:1, raw:true, defval:null}));
       }catch(err){ rej(err); }
     };
     r.onerror = rej;
