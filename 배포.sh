@@ -80,6 +80,11 @@ if grep -q '바이오메이컬' "$DIST/omr-v2.html"; then
   echo "  🔴 학과명 오타가 남아 있다."; exit 1; fi
 echo "  ✅ 약점 판정은 «얇은 축 보정» 기준이고, 학과명 오타는 없다."
 
+# 2024 아주대는 기존 원본에 배점 유무·총합만 있고 문항별 배열이 빠져 있었다.
+# 제공된 공식 PDF에서 검증한 50개 실제 배점을 복사 후 복구한다(반복 실행 가능).
+PYTHONIOENCODING=utf-8 python "$DIST/scripts/apply-ajou-2024-points.py" || {
+  echo "  🔴 2024 아주대 실제 배점 반영에 실패했다."; exit 1; }
+
 echo
 echo "== 6. 위생 검사 (개인정보 · 외부요청) =="
 # 🔴 PYTHONIOENCODING 필수 — 안 주면 stdout 이 CP949 라 이모지에서 UnicodeEncodeError 가 난다.
@@ -124,6 +129,7 @@ echo
 echo "== 7. 커밋 · 푸시 =="
 cd "$DIST" || exit 1
 git add index.html omr.html omr-v2.html .nojekyll robots.txt README.md .gitattributes adm_expand.py gap_fix.pl dist_fix.pl 배포.sh
+git add cumulative.html scripts/apply-ajou-2024-points.py data/verified/ajou-2024-points.json tests/ajou2024-scoring.test.mjs
 if git diff --cached --quiet; then
   echo "  변경 없음 — 커밋 생략."
 else

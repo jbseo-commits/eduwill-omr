@@ -1,0 +1,367 @@
+{
+  "year": "2024",
+  "school": "아주대학교_인문계열",
+  "source": {
+    "file_name": "2024학년도 아주대학교 편입학 수강능력시험 기출문제_인문계열.pdf",
+    "sha256": "b1a94a915cf6016fe53ed8bc42844e07c8191ab2fbd813a7e851bc7e8e4b0e72",
+    "page_count": 25,
+    "printed_notice": "문항 머리말의 points 배점 표기(0.8·1·1.1점)",
+    "verified_at": "2026-10-19",
+    "verification": "pdftotext -layout 및 PyMuPDF 텍스트 추출 결과의 문항번호·배점 50개 일치"
+  },
+  "total": 50,
+  "items": [
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    0.8,
+    1.1,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.1,
+    1.1,
+    1.1,
+    1.1,
+    1.1,
+    1.1,
+    0.8,
+    1.1,
+    1.0,
+    1.1,
+    1.1,
+    0.8,
+    1.0,
+    1.1,
+    0.8,
+    1.1,
+    1.0,
+    1.1,
+    1.0,
+    0.8,
+    1.1,
+    1.0,
+    1.0,
+    1.1,
+    1.1,
+    0.8,
+    1.1,
+    1.1,
+    1.0,
+    1.0,
+    1.1,
+    1.1,
+    0.8,
+    1.0,
+    1.1,
+    1.1
+  ],
+  "questions": [
+    {
+      "question": 1,
+      "points": 0.8,
+      "pdf_page": 2,
+      "printed_page": 1
+    },
+    {
+      "question": 2,
+      "points": 0.8,
+      "pdf_page": 2,
+      "printed_page": 1
+    },
+    {
+      "question": 3,
+      "points": 0.8,
+      "pdf_page": 2,
+      "printed_page": 1
+    },
+    {
+      "question": 4,
+      "points": 0.8,
+      "pdf_page": 3,
+      "printed_page": 2
+    },
+    {
+      "question": 5,
+      "points": 0.8,
+      "pdf_page": 3,
+      "printed_page": 2
+    },
+    {
+      "question": 6,
+      "points": 1.1,
+      "pdf_page": 4,
+      "printed_page": 3
+    },
+    {
+      "question": 7,
+      "points": 1.0,
+      "pdf_page": 4,
+      "printed_page": 3
+    },
+    {
+      "question": 8,
+      "points": 1.0,
+      "pdf_page": 4,
+      "printed_page": 3
+    },
+    {
+      "question": 9,
+      "points": 1.0,
+      "pdf_page": 5,
+      "printed_page": 4
+    },
+    {
+      "question": 10,
+      "points": 1.0,
+      "pdf_page": 5,
+      "printed_page": 4
+    },
+    {
+      "question": 11,
+      "points": 1.0,
+      "pdf_page": 5,
+      "printed_page": 4
+    },
+    {
+      "question": 12,
+      "points": 1.0,
+      "pdf_page": 6,
+      "printed_page": 5
+    },
+    {
+      "question": 13,
+      "points": 1.0,
+      "pdf_page": 6,
+      "printed_page": 5
+    },
+    {
+      "question": 14,
+      "points": 1.0,
+      "pdf_page": 6,
+      "printed_page": 5
+    },
+    {
+      "question": 15,
+      "points": 1.1,
+      "pdf_page": 7,
+      "printed_page": 6
+    },
+    {
+      "question": 16,
+      "points": 1.1,
+      "pdf_page": 8,
+      "printed_page": 7
+    },
+    {
+      "question": 17,
+      "points": 1.1,
+      "pdf_page": 8,
+      "printed_page": 7
+    },
+    {
+      "question": 18,
+      "points": 1.1,
+      "pdf_page": 9,
+      "printed_page": 8
+    },
+    {
+      "question": 19,
+      "points": 1.1,
+      "pdf_page": 11,
+      "printed_page": 10
+    },
+    {
+      "question": 20,
+      "points": 1.1,
+      "pdf_page": 11,
+      "printed_page": 10
+    },
+    {
+      "question": 21,
+      "points": 0.8,
+      "pdf_page": 11,
+      "printed_page": 10
+    },
+    {
+      "question": 22,
+      "points": 1.1,
+      "pdf_page": 11,
+      "printed_page": 10
+    },
+    {
+      "question": 23,
+      "points": 1.0,
+      "pdf_page": 13,
+      "printed_page": 12
+    },
+    {
+      "question": 24,
+      "points": 1.1,
+      "pdf_page": 13,
+      "printed_page": 12
+    },
+    {
+      "question": 25,
+      "points": 1.1,
+      "pdf_page": 13,
+      "printed_page": 12
+    },
+    {
+      "question": 26,
+      "points": 0.8,
+      "pdf_page": 13,
+      "printed_page": 12
+    },
+    {
+      "question": 27,
+      "points": 1.0,
+      "pdf_page": 15,
+      "printed_page": 14
+    },
+    {
+      "question": 28,
+      "points": 1.1,
+      "pdf_page": 15,
+      "printed_page": 14
+    },
+    {
+      "question": 29,
+      "points": 0.8,
+      "pdf_page": 15,
+      "printed_page": 14
+    },
+    {
+      "question": 30,
+      "points": 1.1,
+      "pdf_page": 15,
+      "printed_page": 14
+    },
+    {
+      "question": 31,
+      "points": 1.0,
+      "pdf_page": 17,
+      "printed_page": 16
+    },
+    {
+      "question": 32,
+      "points": 1.1,
+      "pdf_page": 17,
+      "printed_page": 16
+    },
+    {
+      "question": 33,
+      "points": 1.0,
+      "pdf_page": 17,
+      "printed_page": 16
+    },
+    {
+      "question": 34,
+      "points": 0.8,
+      "pdf_page": 17,
+      "printed_page": 16
+    },
+    {
+      "question": 35,
+      "points": 1.1,
+      "pdf_page": 19,
+      "printed_page": 18
+    },
+    {
+      "question": 36,
+      "points": 1.0,
+      "pdf_page": 19,
+      "printed_page": 18
+    },
+    {
+      "question": 37,
+      "points": 1.0,
+      "pdf_page": 19,
+      "printed_page": 18
+    },
+    {
+      "question": 38,
+      "points": 1.1,
+      "pdf_page": 19,
+      "printed_page": 18
+    },
+    {
+      "question": 39,
+      "points": 1.1,
+      "pdf_page": 21,
+      "printed_page": 20
+    },
+    {
+      "question": 40,
+      "points": 0.8,
+      "pdf_page": 21,
+      "printed_page": 20
+    },
+    {
+      "question": 41,
+      "points": 1.1,
+      "pdf_page": 21,
+      "printed_page": 20
+    },
+    {
+      "question": 42,
+      "points": 1.1,
+      "pdf_page": 21,
+      "printed_page": 20
+    },
+    {
+      "question": 43,
+      "points": 1.0,
+      "pdf_page": 23,
+      "printed_page": 22
+    },
+    {
+      "question": 44,
+      "points": 1.0,
+      "pdf_page": 23,
+      "printed_page": 22
+    },
+    {
+      "question": 45,
+      "points": 1.1,
+      "pdf_page": 23,
+      "printed_page": 22
+    },
+    {
+      "question": 46,
+      "points": 1.1,
+      "pdf_page": 23,
+      "printed_page": 22
+    },
+    {
+      "question": 47,
+      "points": 0.8,
+      "pdf_page": 25,
+      "printed_page": 24
+    },
+    {
+      "question": 48,
+      "points": 1.0,
+      "pdf_page": 25,
+      "printed_page": 24
+    },
+    {
+      "question": 49,
+      "points": 1.1,
+      "pdf_page": 25,
+      "printed_page": 24
+    },
+    {
+      "question": 50,
+      "points": 1.1,
+      "pdf_page": 25,
+      "printed_page": 24
+    }
+  ]
+}
