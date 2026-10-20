@@ -544,9 +544,14 @@ function ptsMap(D){const p=ptsInfo(D);if(!p||!Array.isArray(p.items))return null
   for(let i=0;i<p.items.length;i++)m[i+1]=Number(p.items[i]);}
  p._msig=sig;p._m=m;return m;}
 function hasActualPoints(D){const p=ptsInfo(D);return !!(p&&ptsMap(D)&&Number.isFinite(Number(p.total)));}
-function isP100(D){const p=ptsInfo(D);return !(p&&p.has);}
-function scoreMax(D){return hasActualPoints(D)?Number(ptsInfo(D).total):D.nq;}
-function pointOf(q,D){const m=ptsMap(D),v=m?m[q]:undefined;return Number.isFinite(v)?v:1;}
+// OMR uniform score policy v1: verified weights first; otherwise proportional scoring.
+function uniformMax(D){const s=String(D?D.stem:CURSCHOOL);return s.startsWith('세종대학교')?200:s.startsWith('인하대학교')?70:s.startsWith('아주대학교')?50:100;}
+function hasUniformPoints(D){return !hasActualPoints(D)&&!!(D&&D.nq>0);}
+function hasScorePoints(D){return hasActualPoints(D)||hasUniformPoints(D);}
+function scoreBasis(D){const p=ptsInfo(D);return hasActualPoints(D)?`${p.source&&p.source.kind==='provided_prep_book'?'제공자료':'공식'} 실제 배점`:`${uniformMax(D)}점 균등 배점`;}
+
+function scoreMax(D){return hasActualPoints(D)?Number(ptsInfo(D).total):uniformMax(D);}
+function pointOf(q,D){const m=ptsMap(D),v=m?m[q]:undefined;return Number.isFinite(v)?v:hasUniformPoints(D)?uniformMax(D)/D.nq:1;}
 // 🔴 오답감점제 — 13개교 중 «세종대뿐»이다(2026-09-04 전 연도 원본 전수 검색).
 //    원문: 「오답은 정답 배점의 1/4만큼 감점됩니다. 무응답은 감점이 없습니다.」
 //    ⛔ 무응답(a==null)은 이 함수를 «타지 않는다» — 호출부에서 먼저 걸러진다.
@@ -554,11 +559,11 @@ function pointOf(q,D){const m=ptsMap(D),v=m?m[q]:undefined;return Number.isFinit
 function penaltyOf(q,D){const p=ptsInfo(D),r=p?Number(p.wrong_penalty_ratio):NaN;
  return Number.isFinite(r)&&r>0?pointOf(q,D)*r:0;}
 function cleanScore(v){return Math.round(Number(v)*1e8)/1e8;}
-function fmtScore(v,D){if(hasActualPoints(D))return (Math.round(cleanScore(v)*10)/10).toFixed(1).replace(/\.0$/,'');return isP100(D)?(Math.round(v/D.nq*1000)/10).toFixed(1):Math.round(v);}
-function scoreFraction(v,D){return hasActualPoints(D)?`${fmtScore(v,D)}/${fmtScore(scoreMax(D),D)}점`:isP100(D)?`${fmtScore(v,D)}점`:`${Math.round(v)}/${D.nq}문항`;}
-function scoreText(s,D){return hasActualPoints(D)?`${scoreFraction(s.score,D)} · 정답 ${s.correct}/${D.nq}문항`:scoreFraction(s.score,D);}
-function unitOf(D){return hasActualPoints(D)||isP100(D)?'점':'문항';}
-function pointsNotice(D){const p=ptsInfo(D);return hasActualPoints(D)&&p.source&&p.source.printed_notice?` · ${p.source.kind==='provided_prep_book'?'제공자료':'공식'} 배점 ${p.source.printed_notice}`:'';}
+function fmtScore(v,D){return (Math.round(cleanScore(v)*10)/10).toFixed(1).replace(/\.0$/,'');}
+function scoreFraction(v,D){return hasScorePoints(D)?`${fmtScore(v,D)}/${fmtScore(scoreMax(D),D)}점`:`${Math.round(v)}/${D.nq}문항`;}
+function scoreText(s,D){return hasScorePoints(D)?`${scoreFraction(s.score,D)} · 정답 ${s.correct}/${D.nq}문항`:scoreFraction(s.score,D);}
+function unitOf(D){return hasScorePoints(D)?'점':'문항';}
+function pointsNotice(D){const p=ptsInfo(D);if(hasActualPoints(D))return p.source&&p.source.printed_notice?` · ${p.source.kind==='provided_prep_book'?'제공자료':'공식'} 배점 ${p.source.printed_notice}`:'';return hasUniformPoints(D)?` · 문항별 배점 미확인 · ${uniformMax(D)}점 균등 배점`:'';}
 const LEADERS_XY=ALL.leaders_xy||{};   // 전 연도 통합 축별 '연도 학교' 랭킹(교차연도 추천)
 let TAGDB={},LEADERS={},PROFILES={},CURYEAR="2026";
 const BASELINE={};  // 2023 재보정 완료 — 전 연도 Claude 정밀 태깅으로 동급(캐비엇 제거)
@@ -1065,8 +1070,8 @@ function run(){ setLoading(true,'분석 중…'); setTimeout(()=>{ try {
   }
   s.trapByType=Object.entries(trapW).sort((a,b)=>b[1]-a[1]);
   const P=[];
-  P.push(hasActualPoints(SCORECTX)?`{{NAME}}님은 <b>${scoreFraction(s.score,SCORECTX)}</b> (${s.correct}/${nq}문항 정답)으로 ${stu.length<=15?`${stu.length}명 중 <b>${s.rank}위</b>`:`<b>${s.rank}위</b>/${stu.length}명`}입니다.`:`{{NAME}}님은 <b>${nq}문항 중 ${s.score}문항</b>을 맞혀 ${stu.length<=15?`${stu.length}명 중 <b>${s.rank}위</b>`:`<b>${s.rank}위</b>/${stu.length}명`}입니다.`);
-  if(s.tier)P.push(hasActualPoints(SCORECTX)?`다음 목표는 <b>${s.tier.label}</b>(${s.tier.key==='avg'?'':'진입 '}${scoreFraction(s.tier.score,SCORECTX)}) — <b>${fmtScore(s.gapTop,SCORECTX)}점</b>을 더 얻으면 됩니다.`:`다음 목표는 <b>${s.tier.label}</b>(${s.tier.key==='avg'?'':'진입 '}${Math.round(s.tier.score)}문항) — <b>${Math.round(s.gapTop)}문항</b>을 더 맞히면 됩니다.`);
+  P.push(hasScorePoints(SCORECTX)?`{{NAME}}님은 <b>${scoreFraction(s.score,SCORECTX)}</b> (${s.correct}/${nq}문항 정답)으로 ${stu.length<=15?`${stu.length}명 중 <b>${s.rank}위</b>`:`<b>${s.rank}위</b>/${stu.length}명`}입니다.`:`{{NAME}}님은 <b>${nq}문항 중 ${s.score}문항</b>을 맞혀 ${stu.length<=15?`${stu.length}명 중 <b>${s.rank}위</b>`:`<b>${s.rank}위</b>/${stu.length}명`}입니다.`);
+  if(s.tier)P.push(hasScorePoints(SCORECTX)?`다음 목표는 <b>${s.tier.label}</b>(${s.tier.key==='avg'?'':'진입 '}${scoreFraction(s.tier.score,SCORECTX)}) — <b>${fmtScore(s.gapTop,SCORECTX)}점</b>을 더 얻으면 됩니다.`:`다음 목표는 <b>${s.tier.label}</b>(${s.tier.key==='avg'?'':'진입 '}${Math.round(s.tier.score)}문항) — <b>${Math.round(s.gapTop)}문항</b>을 더 맞히면 됩니다.`);
   else P.push(`이 반에서 <b>최상위권</b>입니다. 현 수준 유지가 목표입니다.`);
   if(s.recover.length&&s.tier){const r=s.recover[0];
    if(s.gapQ&&r.gain>=s.gapQ)P.push(`<b>${r.label}</b>만 잡아도 <b>${s.tier.label}</b>${josaEul(s.tier.label)} 넘어섭니다(${r.nq}문항 중 ${Math.round(r.acc/100*r.nq)}개 → ${Math.round(r.top/100*r.nq)}개).`);
@@ -1537,11 +1542,11 @@ function admHTML(D){
 // ⛔ 눈금 단위는 카드와 맞춘다 — 배점 표기가 없는 시험지는 100점 환산이라 자도 0~100이어야 한다.
 //    문항 수로 그리면 카드는 '90.0점'인데 자는 '54문항'을 가리켜 두 수가 어긋나 보인다.
 function tierBarHTML(s,D){
- const t=D.tiers||[], u=unitOf(D), p100=isP100(D),actual=hasActualPoints(D);
- const hi=actual?D.scoreMax:(p100?100:D.nq);   // 자의 끝(화면 단위)
- const dv=v=>p100?v/D.nq*100:v;               // 원점수 → 화면 단위
+ const t=D.tiers||[], u=unitOf(D), actual=hasScorePoints(D);
+ const hi=actual?D.scoreMax:D.nq;   // 자의 끝(화면 단위)
+ const dv=v=>v;               // 원점수 → 화면 단위
  const pos=v=>Math.max(0,Math.min(100,dv(v)/hi*100));
- const step=p100?20:(hi<=24?5:10), minor=step/2;
+ const step=hi===100?20:(hi<=24?5:10), minor=step/2;
  let ticks='';
  for(let v=0;v<=hi+1e-9;v+=minor){
   const maj=Math.abs(v/step-Math.round(v/step))<1e-9;
@@ -1564,7 +1569,7 @@ function tierBarHTML(s,D){
  const miss=gone.length?`<div class=pmiss>※ 응시 ${D.nstu}명이라 ${gone.join('·')} 칸이 반 평균과 갈리지 않아 표시하지 않았습니다.</div>`:'';
  return `<div class=pwrap>
   <div class="tcard me"><div class=tcl>내 점수</div><div class=tcv>${fmtScore(s.score,D)}<i>${u}</i></div>
-   <div class=tcs>${actual?`${ptsInfo(D).source&&ptsInfo(D).source.kind==='provided_prep_book'?'제공자료':'공식'} 실제 배점 · 정답 ${s.correct}/${D.nq}문항`:p100?`${D.nq}문항 균등 배점 · 정답 ${s.score}개`:`${D.nq}문항 중 ${s.pct}%`}</div></div>
+   <div class=tcs>${actual?`${scoreBasis(D)} · 정답 ${s.correct}/${D.nq}문항`:`${D.nq}문항 중 ${s.pct}%`}</div></div>
   <div class=pstack>
    <div class=pref>${zones}</div>
    <div class=pmine><div class=pfill style="width:${p}%"></div>${now}</div>
@@ -1581,7 +1586,7 @@ function cutLineHTML(s,D){
  if(!hit)return '';
  const sameSchool=String(D.stem||'').startsWith(base);
  let warn = sameSchool ? '' : `<em class=cw>※ 오늘 시험지는 ${esc(D.school)}라 ${esc(base)} 성적과 직접 비교는 어렵습니다</em>`;
- if (!isP100(D)) {
+ if (hasActualPoints(D)) {
     warn += `<em class=cw>※ 본 시험은 배점이 다르므로, 정답률(${s.pct}%)과 실제 환산점수는 다를 수 있습니다.</em>`;
  }
  let displayScore = `${hit.basis} <b>${hit.score.toFixed(1)}점</b>`;

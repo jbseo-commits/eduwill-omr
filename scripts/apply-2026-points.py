@@ -8,6 +8,8 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def patch_runtime(text, name):
+    if '// OMR uniform score policy v1:' in text:
+        return text  # The subsequent score-policy patch owns these newer formatters.
     old = "function pointsNotice(D){const p=ptsInfo(D);return hasActualPoints(D)&&p.source&&p.source.printed_notice?` · 공식 배점 ${p.source.printed_notice}`:'';}"
     new = "function pointsNotice(D){const p=ptsInfo(D);return hasActualPoints(D)&&p.source&&p.source.printed_notice?` · ${p.source.kind==='provided_prep_book'?'제공자료':'공식'} 배점 ${p.source.printed_notice}`:'';}"
     if text.count(old) == 1:

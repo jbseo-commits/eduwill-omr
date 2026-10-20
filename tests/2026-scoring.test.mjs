@@ -58,7 +58,7 @@ for(const file of ['omr-v2.html','omr.html']){
     for(const e of proof.exams.filter(e=>e.status==='not_printed_in_provided_pdf')){
       const d={year:'2026',stem:e.school,nq:e.n,qlist:Array.from({length:e.n},(_,i)=>i+1)};
       assert.equal(api.hasActualPoints(d),false);
-      assert.equal(api.pointsNotice(d),'');
+      assert.match(api.pointsNotice(d),/100점 균등 배점/);
     }
   });
   test(file+': Sejong preserves a quarter-weight wrong-answer deduction; blank earns zero',()=>{

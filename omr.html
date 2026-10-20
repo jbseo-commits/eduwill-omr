@@ -415,8 +415,13 @@ function ptsMap(D){const p=ptsInfo(D);if(!p||!Array.isArray(p.items))return null
   for(let i=0;i<p.items.length;i++)m[i+1]=Number(p.items[i]);}
  p._msig=sig;p._m=m;return m;}
 function hasActualPoints(D){const p=ptsInfo(D);return !!(p&&ptsMap(D)&&Number.isFinite(Number(p.total)));}
-function scoreMax(D){return hasActualPoints(D)?Number(ptsInfo(D).total):D.nq;}
-function pointOf(q,D){const m=ptsMap(D),v=m?m[q]:undefined;return Number.isFinite(v)?v:1;}
+// OMR uniform score policy v1: verified weights first; otherwise proportional scoring.
+function uniformMax(D){const s=String(D?D.stem:CURSCHOOL);return s.startsWith('세종대학교')?200:s.startsWith('인하대학교')?70:s.startsWith('아주대학교')?50:100;}
+function hasUniformPoints(D){return !hasActualPoints(D)&&!!(D&&D.nq>0);}
+function hasScorePoints(D){return hasActualPoints(D)||hasUniformPoints(D);}
+function scoreBasis(D){const p=ptsInfo(D);return hasActualPoints(D)?`${p.source&&p.source.kind==='provided_prep_book'?'제공자료':'공식'} 실제 배점`:`${uniformMax(D)}점 균등 배점`;}
+function scoreMax(D){return hasActualPoints(D)?Number(ptsInfo(D).total):uniformMax(D);}
+function pointOf(q,D){const m=ptsMap(D),v=m?m[q]:undefined;return Number.isFinite(v)?v:hasUniformPoints(D)?uniformMax(D)/D.nq:1;}
 // 🔴 오답감점제 — 13개교 중 «세종대뿐»이다(2026-09-04 전 연도 원본 전수 검색).
 //    원문: 「오답은 정답 배점의 1/4만큼 감점됩니다. 무응답은 감점이 없습니다.」
 //    ⛔ 무응답(a==null)은 이 함수를 «타지 않는다» — 호출부에서 먼저 걸러진다.
@@ -425,9 +430,9 @@ function penaltyOf(q,D){const p=ptsInfo(D),r=p?Number(p.wrong_penalty_ratio):NaN
  return Number.isFinite(r)&&r>0?pointOf(q,D)*r:0;}
 function cleanScore(v){return Math.round(Number(v)*1e8)/1e8;}
 function fmtScore(v,D){return (Math.round(cleanScore(v)*10)/10).toFixed(1).replace(/\.0$/,'');}
-function scoreFraction(v,D){return hasActualPoints(D)?`${fmtScore(v,D)}/${fmtScore(scoreMax(D),D)}점`:`${Math.round(v)}/${D.nq}문항`;}
-function scoreText(s,D){return hasActualPoints(D)?`${scoreFraction(s.score,D)} · 정답 ${s.correct}/${D.nq}문항`:scoreFraction(s.score,D);}
-function pointsNotice(D){const p=ptsInfo(D);return hasActualPoints(D)&&p.source&&p.source.printed_notice?` · ${p.source.kind==='provided_prep_book'?'제공자료':'공식'} 배점 ${p.source.printed_notice}`:'';}
+function scoreFraction(v,D){return hasScorePoints(D)?`${fmtScore(v,D)}/${fmtScore(scoreMax(D),D)}점`:`${Math.round(v)}/${D.nq}문항`;}
+function scoreText(s,D){return hasScorePoints(D)?`${scoreFraction(s.score,D)} · 정답 ${s.correct}/${D.nq}문항`:scoreFraction(s.score,D);}
+function pointsNotice(D){const p=ptsInfo(D);if(hasActualPoints(D))return p.source&&p.source.printed_notice?` · ${p.source.kind==='provided_prep_book'?'제공자료':'공식'} 배점 ${p.source.printed_notice}`:'';return hasUniformPoints(D)?` · 문항별 배점 미확인 · ${uniformMax(D)}점 균등 배점`:'';}
 function reco(axis,k){const cur=CURYEAR+' '+pretty(CURSCHOOL);return (LEADERS_XY[axis]||[]).filter(s=>s!==cur).slice(0,k||3);}
 const AXTYPE={"어휘":"어휘형","문법":"문법형","독해":"독해형","고차추론":"추론형","추론깊이":"심층추론형","어휘난도":"고난도어휘형"};
 function axType(a){return AXTYPE[a]||a;}
@@ -724,7 +729,7 @@ function run(){ setLoading(true,'분석 중…'); setTimeout(()=>{ try {
   s.trapByType=Object.entries(trapW).sort((a,b)=>b[1]-a[1]);
   // 이름은 실명/익명 전환이 있으므로 자리표시자로 넣고 표시 직전에 narrOf()가 채운다
   // 소수 인원에서 백분위는 과장이다(8명 중 1등=상위 13%). A4 석차 칸과 같은 15명 기준을 쓴다.
-  const P=[];P.push(hasActualPoints(SCORECTX)?`{{NAME}}님은 <b>${scoreFraction(s.score,SCORECTX)}</b> (${s.correct}/${nq}문항 정답), ${stu.length<=15?`${stu.length}명 중 ${s.rank}위`:`${s.rank}위(상위 ${s.pctile}%)`}.`:`{{NAME}}님은 <b>${s.score}/${nq}점(${s.pct}%)</b>, ${stu.length<=15?`${stu.length}명 중 ${s.rank}위`:`${s.rank}위(상위 ${s.pctile}%)`}.`);
+  const P=[];P.push(hasScorePoints(SCORECTX)?`{{NAME}}님은 <b>${scoreFraction(s.score,SCORECTX)}</b> (${s.correct}/${nq}문항 정답), ${stu.length<=15?`${stu.length}명 중 ${s.rank}위`:`${s.rank}위(상위 ${s.pctile}%)`}.`:`{{NAME}}님은 <b>${s.score}/${nq}점(${s.pct}%)</b>, ${stu.length<=15?`${stu.length}명 중 ${s.rank}위`:`${s.rank}위(상위 ${s.pctile}%)`}.`);
   if(s.plan.length){const p=s.plan[0],w=p.weight||0;
    // 비중을 보고 문장을 고른다 — 비중이 작은 영역에 "영향이 큽니다"를 붙이면 근거 없는 단정이 된다
    const imp=w>=25?`이 시험의 약 ${w}%를 차지해 영향이 큽니다.`
