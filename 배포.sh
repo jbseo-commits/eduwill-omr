@@ -84,6 +84,8 @@ echo "  ✅ 약점 판정은 «얇은 축 보정» 기준이고, 학과명 오�
 # 제공된 공식 PDF에서 검증한 50개 실제 배점을 복사 후 복구한다(반복 실행 가능).
 PYTHONIOENCODING=utf-8 python "$DIST/scripts/apply-ajou-2024-points.py" || {
   echo "  🔴 2024 아주대 실제 배점 반영에 실패했다."; exit 1; }
+PYTHONIOENCODING=utf-8 python "$DIST/scripts/apply-2026-points.py" || {
+  echo "  🔴 2026 제공 자료의 검증 배점 반영에 실패했다."; exit 1; }
 
 echo
 echo "== 6. 위생 검사 (개인정보 · 외부요청) =="
@@ -130,6 +132,7 @@ echo "== 7. 커밋 · 푸시 =="
 cd "$DIST" || exit 1
 git add index.html omr.html omr-v2.html .nojekyll robots.txt README.md .gitattributes adm_expand.py gap_fix.pl dist_fix.pl 배포.sh
 git add cumulative.html scripts/apply-ajou-2024-points.py data/verified/ajou-2024-points.json tests/ajou2024-scoring.test.mjs
+git add scripts/apply-2026-points.py data/verified/2026-points.json tests/2026-scoring.test.mjs
 if git diff --cached --quiet; then
   echo "  변경 없음 — 커밋 생략."
 else

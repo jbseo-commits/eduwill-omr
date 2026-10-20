@@ -1,0 +1,3408 @@
+{
+  "year": "2026",
+  "verified_at": "2026-10-20",
+  "verification": "PyMuPDF와 pdftotext -raw의 문항번호·배점·근거 쪽수 일치. 제공 해설집 기준이며 대학 공식 원본과 별도 대조하지 않음.",
+  "sources": {
+    "combined": {
+      "file_name": "2026학년도 편입영어 기출해설집_통합_에듀윌편입_V2.0_건대 제외.pdf",
+      "sha256": "d43cffe271c4e37ea3813274c7fe6e687470c186e8114de47e9c4dac003776ad",
+      "page_count": 354,
+      "kind": "provided_prep_book"
+    },
+    "konkuk": {
+      "file_name": "261009(수정)_2026학년도 편입영어 건국대학교 기출 문제, 해설_에듀윌편입.pdf",
+      "sha256": "4e780f9182b0381c13860a2aa02671c80264972784ee62fd265ed1c4cf852fbc",
+      "page_count": 15,
+      "kind": "provided_prep_book"
+    }
+  },
+  "exams": [
+    {
+      "school": "가천대학교_영어",
+      "source": "combined",
+      "pdf_pages": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "n": 40,
+      "questions": [
+        {
+          "question": 1,
+          "points": 1.2,
+          "pdf_page": 5,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 2,
+          "points": 1.2,
+          "pdf_page": 5,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 3,
+          "points": 1.2,
+          "pdf_page": 5,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 4,
+          "points": 1.2,
+          "pdf_page": 5,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 5,
+          "points": 1.2,
+          "pdf_page": 5,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 6,
+          "points": 1.2,
+          "pdf_page": 5,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 7,
+          "points": 1.2,
+          "pdf_page": 5,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 8,
+          "points": 1.2,
+          "pdf_page": 5,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 9,
+          "points": 2.1,
+          "pdf_page": 5,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 10,
+          "points": 2.1,
+          "pdf_page": 5,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 11,
+          "points": 2.1,
+          "pdf_page": 5,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 12,
+          "points": 2.1,
+          "pdf_page": 6,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 13,
+          "points": 2.1,
+          "pdf_page": 6,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 14,
+          "points": 2.4,
+          "pdf_page": 6,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 15,
+          "points": 2.4,
+          "pdf_page": 6,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 16,
+          "points": 2.4,
+          "pdf_page": 6,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 17,
+          "points": 2.4,
+          "pdf_page": 6,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 18,
+          "points": 2.4,
+          "pdf_page": 6,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 19,
+          "points": 2.4,
+          "pdf_page": 6,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 20,
+          "points": 2.4,
+          "pdf_page": 7,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 21,
+          "points": 2.4,
+          "pdf_page": 7,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 22,
+          "points": 3.1,
+          "pdf_page": 7,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 23,
+          "points": 3.1,
+          "pdf_page": 7,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 24,
+          "points": 3.1,
+          "pdf_page": 7,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 25,
+          "points": 3.1,
+          "pdf_page": 7,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 26,
+          "points": 3.1,
+          "pdf_page": 7,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 27,
+          "points": 3.1,
+          "pdf_page": 8,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 28,
+          "points": 3.1,
+          "pdf_page": 8,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 29,
+          "points": 3.1,
+          "pdf_page": 8,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 30,
+          "points": 3.1,
+          "pdf_page": 8,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 31,
+          "points": 3.1,
+          "pdf_page": 8,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 32,
+          "points": 3.3,
+          "pdf_page": 8,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 33,
+          "points": 3.3,
+          "pdf_page": 9,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 34,
+          "points": 3.3,
+          "pdf_page": 9,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 35,
+          "points": 3.3,
+          "pdf_page": 9,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 36,
+          "points": 3.3,
+          "pdf_page": 9,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 37,
+          "points": 3.3,
+          "pdf_page": 9,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 38,
+          "points": 3.3,
+          "pdf_page": 9,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 39,
+          "points": 3.3,
+          "pdf_page": 10,
+          "point_source_pdf_page": 5
+        },
+        {
+          "question": 40,
+          "points": 3.3,
+          "pdf_page": 10,
+          "point_source_pdf_page": 5
+        }
+      ],
+      "rules": [
+        {
+          "first": 1,
+          "last": 8,
+          "points": 1.2,
+          "pdf_page": 5
+        },
+        {
+          "first": 9,
+          "last": 13,
+          "points": 2.1,
+          "pdf_page": 5
+        },
+        {
+          "first": 14,
+          "last": 21,
+          "points": 2.4,
+          "pdf_page": 5
+        },
+        {
+          "first": 22,
+          "last": 31,
+          "points": 3.1,
+          "pdf_page": 5
+        },
+        {
+          "first": 32,
+          "last": 40,
+          "points": 3.3,
+          "pdf_page": 5
+        }
+      ],
+      "status": "verified",
+      "items": [
+        1.2,
+        1.2,
+        1.2,
+        1.2,
+        1.2,
+        1.2,
+        1.2,
+        1.2,
+        2.1,
+        2.1,
+        2.1,
+        2.1,
+        2.1,
+        2.4,
+        2.4,
+        2.4,
+        2.4,
+        2.4,
+        2.4,
+        2.4,
+        2.4,
+        3.1,
+        3.1,
+        3.1,
+        3.1,
+        3.1,
+        3.1,
+        3.1,
+        3.1,
+        3.1,
+        3.1,
+        3.3,
+        3.3,
+        3.3,
+        3.3,
+        3.3,
+        3.3,
+        3.3,
+        3.3,
+        3.3
+      ],
+      "total": 100.0
+    },
+    {
+      "school": "가톨릭대학교_인문계_A형",
+      "source": "combined",
+      "pdf_pages": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "n": 40,
+      "question_pages": {
+        "1": 11,
+        "2": 11,
+        "3": 11,
+        "4": 11,
+        "5": 11,
+        "6": 11,
+        "7": 11,
+        "8": 11,
+        "9": 11,
+        "10": 11,
+        "11": 11,
+        "12": 11,
+        "13": 12,
+        "14": 12,
+        "15": 12,
+        "16": 12,
+        "17": 12,
+        "18": 13,
+        "19": 13,
+        "20": 13,
+        "21": 13,
+        "22": 13,
+        "23": 14,
+        "24": 14,
+        "25": 14,
+        "26": 15,
+        "27": 15,
+        "28": 15,
+        "29": 16,
+        "30": 16,
+        "31": 16,
+        "32": 16,
+        "33": 16,
+        "34": 17,
+        "35": 17,
+        "36": 17,
+        "37": 17,
+        "38": 17,
+        "39": 18,
+        "40": 18
+      },
+      "status": "not_printed_in_provided_pdf",
+      "note": "제공 PDF의 해당 시험지 전체 문항에서 배점 표기를 찾지 못함. 대학이 배점을 공개하지 않았다는 뜻은 아니며 실제 배점을 임의로 추정하지 않음."
+    },
+    {
+      "school": "건국대학교_영어(인문예체능)",
+      "source": "konkuk",
+      "pdf_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "n": 40,
+      "questions": [
+        {
+          "question": 1,
+          "points": 2.0,
+          "pdf_page": 1,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 2,
+          "points": 2.0,
+          "pdf_page": 1,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 3,
+          "points": 2.0,
+          "pdf_page": 1,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 4,
+          "points": 2.0,
+          "pdf_page": 1,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 5,
+          "points": 2.0,
+          "pdf_page": 1,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 6,
+          "points": 2.0,
+          "pdf_page": 1,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 7,
+          "points": 2.0,
+          "pdf_page": 1,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 8,
+          "points": 2.0,
+          "pdf_page": 1,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 9,
+          "points": 2.0,
+          "pdf_page": 1,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 10,
+          "points": 2.0,
+          "pdf_page": 1,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 11,
+          "points": 2.0,
+          "pdf_page": 1,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 12,
+          "points": 2.0,
+          "pdf_page": 1,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 13,
+          "points": 2.0,
+          "pdf_page": 2,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 14,
+          "points": 2.0,
+          "pdf_page": 2,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 15,
+          "points": 2.0,
+          "pdf_page": 2,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 16,
+          "points": 2.0,
+          "pdf_page": 2,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 17,
+          "points": 2.0,
+          "pdf_page": 2,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 18,
+          "points": 2.0,
+          "pdf_page": 2,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 19,
+          "points": 2.0,
+          "pdf_page": 2,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 20,
+          "points": 2.0,
+          "pdf_page": 3,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 21,
+          "points": 3.0,
+          "pdf_page": 3,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 22,
+          "points": 3.0,
+          "pdf_page": 3,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 23,
+          "points": 3.0,
+          "pdf_page": 3,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 24,
+          "points": 3.0,
+          "pdf_page": 3,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 25,
+          "points": 3.0,
+          "pdf_page": 4,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 26,
+          "points": 3.0,
+          "pdf_page": 4,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 27,
+          "points": 3.0,
+          "pdf_page": 4,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 28,
+          "points": 3.0,
+          "pdf_page": 4,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 29,
+          "points": 3.0,
+          "pdf_page": 5,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 30,
+          "points": 3.0,
+          "pdf_page": 5,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 31,
+          "points": 3.0,
+          "pdf_page": 5,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 32,
+          "points": 3.0,
+          "pdf_page": 5,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 33,
+          "points": 3.0,
+          "pdf_page": 6,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 34,
+          "points": 3.0,
+          "pdf_page": 6,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 35,
+          "points": 3.0,
+          "pdf_page": 6,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 36,
+          "points": 3.0,
+          "pdf_page": 6,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 37,
+          "points": 3.0,
+          "pdf_page": 7,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 38,
+          "points": 3.0,
+          "pdf_page": 7,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 39,
+          "points": 3.0,
+          "pdf_page": 7,
+          "point_source_pdf_page": 1
+        },
+        {
+          "question": 40,
+          "points": 3.0,
+          "pdf_page": 7,
+          "point_source_pdf_page": 1
+        }
+      ],
+      "rules": [
+        {
+          "first": 1,
+          "last": 20,
+          "points": 2.0,
+          "pdf_page": 1
+        },
+        {
+          "first": 21,
+          "last": 40,
+          "points": 3.0,
+          "pdf_page": 1
+        }
+      ],
+      "status": "verified",
+      "items": [
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0
+      ],
+      "total": 100.0
+    },
+    {
+      "school": "서울여자대학교_영어_오전반",
+      "source": "combined",
+      "pdf_pages": [
+        69,
+        70,
+        71,
+        72,
+        73,
+        74
+      ],
+      "n": 40,
+      "question_pages": {
+        "1": 69,
+        "2": 69,
+        "3": 69,
+        "4": 69,
+        "5": 69,
+        "6": 69,
+        "7": 69,
+        "8": 69,
+        "9": 69,
+        "10": 69,
+        "11": 69,
+        "12": 69,
+        "13": 69,
+        "14": 69,
+        "15": 69,
+        "16": 69,
+        "17": 69,
+        "18": 69,
+        "19": 70,
+        "20": 70,
+        "21": 70,
+        "22": 70,
+        "23": 70,
+        "24": 70,
+        "25": 70,
+        "26": 70,
+        "27": 71,
+        "28": 71,
+        "29": 71,
+        "30": 72,
+        "31": 72,
+        "32": 72,
+        "33": 72,
+        "34": 73,
+        "35": 73,
+        "36": 73,
+        "37": 73,
+        "38": 74,
+        "39": 74,
+        "40": 74
+      },
+      "status": "not_printed_in_provided_pdf",
+      "note": "제공 PDF의 해당 시험지 전체 문항에서 배점 표기를 찾지 못함. 대학이 배점을 공개하지 않았다는 뜻은 아니며 실제 배점을 임의로 추정하지 않음."
+    },
+    {
+      "school": "성균관대학교_인문계_A형",
+      "source": "combined",
+      "pdf_pages": [
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86
+      ],
+      "n": 50,
+      "questions": [
+        {
+          "question": 1,
+          "points": 1.9,
+          "pdf_page": 75
+        },
+        {
+          "question": 2,
+          "points": 1.9,
+          "pdf_page": 75
+        },
+        {
+          "question": 3,
+          "points": 1.9,
+          "pdf_page": 75
+        },
+        {
+          "question": 4,
+          "points": 1.9,
+          "pdf_page": 75
+        },
+        {
+          "question": 5,
+          "points": 1.9,
+          "pdf_page": 75
+        },
+        {
+          "question": 6,
+          "points": 1.8,
+          "pdf_page": 75
+        },
+        {
+          "question": 7,
+          "points": 1.8,
+          "pdf_page": 75
+        },
+        {
+          "question": 8,
+          "points": 1.8,
+          "pdf_page": 75
+        },
+        {
+          "question": 9,
+          "points": 1.8,
+          "pdf_page": 75
+        },
+        {
+          "question": 10,
+          "points": 1.8,
+          "pdf_page": 75
+        },
+        {
+          "question": 11,
+          "points": 2.0,
+          "pdf_page": 75
+        },
+        {
+          "question": 12,
+          "points": 2.0,
+          "pdf_page": 76
+        },
+        {
+          "question": 13,
+          "points": 2.0,
+          "pdf_page": 76
+        },
+        {
+          "question": 14,
+          "points": 2.0,
+          "pdf_page": 76
+        },
+        {
+          "question": 15,
+          "points": 2.0,
+          "pdf_page": 76
+        },
+        {
+          "question": 16,
+          "points": 2.0,
+          "pdf_page": 76
+        },
+        {
+          "question": 17,
+          "points": 2.0,
+          "pdf_page": 76
+        },
+        {
+          "question": 18,
+          "points": 2.0,
+          "pdf_page": 77
+        },
+        {
+          "question": 19,
+          "points": 2.0,
+          "pdf_page": 77
+        },
+        {
+          "question": 20,
+          "points": 2.0,
+          "pdf_page": 77
+        },
+        {
+          "question": 21,
+          "points": 2.1,
+          "pdf_page": 77
+        },
+        {
+          "question": 22,
+          "points": 2.0,
+          "pdf_page": 78
+        },
+        {
+          "question": 23,
+          "points": 2.0,
+          "pdf_page": 78
+        },
+        {
+          "question": 24,
+          "points": 2.1,
+          "pdf_page": 78
+        },
+        {
+          "question": 25,
+          "points": 2.1,
+          "pdf_page": 79
+        },
+        {
+          "question": 26,
+          "points": 2.1,
+          "pdf_page": 79
+        },
+        {
+          "question": 27,
+          "points": 2.1,
+          "pdf_page": 80
+        },
+        {
+          "question": 28,
+          "points": 2.0,
+          "pdf_page": 80
+        },
+        {
+          "question": 29,
+          "points": 2.1,
+          "pdf_page": 80
+        },
+        {
+          "question": 30,
+          "points": 2.1,
+          "pdf_page": 81
+        },
+        {
+          "question": 31,
+          "points": 2.1,
+          "pdf_page": 81
+        },
+        {
+          "question": 32,
+          "points": 2.0,
+          "pdf_page": 81
+        },
+        {
+          "question": 33,
+          "points": 2.1,
+          "pdf_page": 82
+        },
+        {
+          "question": 34,
+          "points": 2.0,
+          "pdf_page": 82
+        },
+        {
+          "question": 35,
+          "points": 2.1,
+          "pdf_page": 82
+        },
+        {
+          "question": 36,
+          "points": 2.0,
+          "pdf_page": 83
+        },
+        {
+          "question": 37,
+          "points": 2.1,
+          "pdf_page": 83
+        },
+        {
+          "question": 38,
+          "points": 2.1,
+          "pdf_page": 83
+        },
+        {
+          "question": 39,
+          "points": 2.0,
+          "pdf_page": 83
+        },
+        {
+          "question": 40,
+          "points": 2.0,
+          "pdf_page": 83
+        },
+        {
+          "question": 41,
+          "points": 2.0,
+          "pdf_page": 84
+        },
+        {
+          "question": 42,
+          "points": 2.0,
+          "pdf_page": 84
+        },
+        {
+          "question": 43,
+          "points": 2.0,
+          "pdf_page": 84
+        },
+        {
+          "question": 44,
+          "points": 2.1,
+          "pdf_page": 85
+        },
+        {
+          "question": 45,
+          "points": 2.0,
+          "pdf_page": 85
+        },
+        {
+          "question": 46,
+          "points": 2.1,
+          "pdf_page": 86
+        },
+        {
+          "question": 47,
+          "points": 2.1,
+          "pdf_page": 86
+        },
+        {
+          "question": 48,
+          "points": 2.0,
+          "pdf_page": 86
+        },
+        {
+          "question": 49,
+          "points": 2.0,
+          "pdf_page": 86
+        },
+        {
+          "question": 50,
+          "points": 2.0,
+          "pdf_page": 86
+        }
+      ],
+      "rules": [],
+      "status": "verified",
+      "items": [
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.9,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        1.8,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.1,
+        2.0,
+        2.0,
+        2.1,
+        2.1,
+        2.1,
+        2.1,
+        2.0,
+        2.1,
+        2.1,
+        2.1,
+        2.0,
+        2.1,
+        2.0,
+        2.1,
+        2.0,
+        2.1,
+        2.1,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.1,
+        2.0,
+        2.1,
+        2.1,
+        2.0,
+        2.0,
+        2.0
+      ],
+      "total": 100.0
+    },
+    {
+      "school": "세종대학교_인문계_A형",
+      "source": "combined",
+      "pdf_pages": [
+        87,
+        88,
+        89,
+        90,
+        91,
+        92
+      ],
+      "n": 60,
+      "questions": [
+        {
+          "question": 1,
+          "points": 2.8,
+          "pdf_page": 87,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 2,
+          "points": 2.8,
+          "pdf_page": 87,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 3,
+          "points": 2.8,
+          "pdf_page": 87,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 4,
+          "points": 2.8,
+          "pdf_page": 87,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 5,
+          "points": 2.8,
+          "pdf_page": 87,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 6,
+          "points": 2.8,
+          "pdf_page": 87,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 7,
+          "points": 2.8,
+          "pdf_page": 87,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 8,
+          "points": 2.8,
+          "pdf_page": 87,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 9,
+          "points": 2.8,
+          "pdf_page": 87,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 10,
+          "points": 2.8,
+          "pdf_page": 87,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 11,
+          "points": 3.8,
+          "pdf_page": 87,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 12,
+          "points": 3.8,
+          "pdf_page": 87,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 13,
+          "points": 3.8,
+          "pdf_page": 87,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 14,
+          "points": 3.8,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 15,
+          "points": 3.8,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 16,
+          "points": 3.2,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 17,
+          "points": 3.2,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 18,
+          "points": 3.2,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 19,
+          "points": 3.2,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 20,
+          "points": 3.2,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 21,
+          "points": 3.2,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 22,
+          "points": 3.2,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 23,
+          "points": 3.2,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 24,
+          "points": 3.2,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 25,
+          "points": 3.2,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 26,
+          "points": 3.2,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 27,
+          "points": 3.2,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 28,
+          "points": 3.2,
+          "pdf_page": 88,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 29,
+          "points": 3.2,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 30,
+          "points": 3.2,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 31,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 32,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 33,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 34,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 35,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 36,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 37,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 38,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 39,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 40,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 41,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 42,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 43,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 44,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 45,
+          "points": 2.8,
+          "pdf_page": 89,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 46,
+          "points": 4.2,
+          "pdf_page": 90,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 47,
+          "points": 4.2,
+          "pdf_page": 90,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 48,
+          "points": 4.2,
+          "pdf_page": 90,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 49,
+          "points": 4.2,
+          "pdf_page": 90,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 50,
+          "points": 4.2,
+          "pdf_page": 90,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 51,
+          "points": 4.2,
+          "pdf_page": 91,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 52,
+          "points": 4.2,
+          "pdf_page": 91,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 53,
+          "points": 4.2,
+          "pdf_page": 91,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 54,
+          "points": 4.2,
+          "pdf_page": 91,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 55,
+          "points": 4.2,
+          "pdf_page": 91,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 56,
+          "points": 4.2,
+          "pdf_page": 91,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 57,
+          "points": 4.2,
+          "pdf_page": 92,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 58,
+          "points": 4.2,
+          "pdf_page": 92,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 59,
+          "points": 4.2,
+          "pdf_page": 92,
+          "point_source_pdf_page": 87
+        },
+        {
+          "question": 60,
+          "points": 4.2,
+          "pdf_page": 92,
+          "point_source_pdf_page": 87
+        }
+      ],
+      "rules": [
+        {
+          "first": 1,
+          "last": 10,
+          "points": 2.8,
+          "pdf_page": 87
+        },
+        {
+          "first": 11,
+          "last": 15,
+          "points": 3.8,
+          "pdf_page": 87
+        },
+        {
+          "first": 16,
+          "last": 30,
+          "points": 3.2,
+          "pdf_page": 87
+        },
+        {
+          "first": 31,
+          "last": 45,
+          "points": 2.8,
+          "pdf_page": 87
+        },
+        {
+          "first": 46,
+          "last": 60,
+          "points": 4.2,
+          "pdf_page": 87
+        }
+      ],
+      "status": "verified",
+      "items": [
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        3.8,
+        3.8,
+        3.8,
+        3.8,
+        3.8,
+        3.2,
+        3.2,
+        3.2,
+        3.2,
+        3.2,
+        3.2,
+        3.2,
+        3.2,
+        3.2,
+        3.2,
+        3.2,
+        3.2,
+        3.2,
+        3.2,
+        3.2,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        2.8,
+        4.2,
+        4.2,
+        4.2,
+        4.2,
+        4.2,
+        4.2,
+        4.2,
+        4.2,
+        4.2,
+        4.2,
+        4.2,
+        4.2,
+        4.2,
+        4.2,
+        4.2
+      ],
+      "total": 200.0,
+      "wrong_penalty_ratio": 0.25
+    },
+    {
+      "school": "아주대학교_인문계열",
+      "source": "combined",
+      "pdf_pages": [
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120
+      ],
+      "n": 50,
+      "questions": [
+        {
+          "question": 1,
+          "points": 0.8,
+          "pdf_page": 109
+        },
+        {
+          "question": 2,
+          "points": 0.8,
+          "pdf_page": 109
+        },
+        {
+          "question": 3,
+          "points": 0.8,
+          "pdf_page": 109
+        },
+        {
+          "question": 4,
+          "points": 1.0,
+          "pdf_page": 109
+        },
+        {
+          "question": 5,
+          "points": 0.8,
+          "pdf_page": 109
+        },
+        {
+          "question": 6,
+          "points": 1.0,
+          "pdf_page": 109
+        },
+        {
+          "question": 7,
+          "points": 1.1,
+          "pdf_page": 109
+        },
+        {
+          "question": 8,
+          "points": 0.8,
+          "pdf_page": 109
+        },
+        {
+          "question": 9,
+          "points": 1.0,
+          "pdf_page": 110
+        },
+        {
+          "question": 10,
+          "points": 0.8,
+          "pdf_page": 110
+        },
+        {
+          "question": 11,
+          "points": 1.0,
+          "pdf_page": 110
+        },
+        {
+          "question": 12,
+          "points": 1.1,
+          "pdf_page": 110
+        },
+        {
+          "question": 13,
+          "points": 1.0,
+          "pdf_page": 110
+        },
+        {
+          "question": 14,
+          "points": 1.1,
+          "pdf_page": 110
+        },
+        {
+          "question": 15,
+          "points": 1.1,
+          "pdf_page": 110
+        },
+        {
+          "question": 16,
+          "points": 1.1,
+          "pdf_page": 111
+        },
+        {
+          "question": 17,
+          "points": 1.1,
+          "pdf_page": 111
+        },
+        {
+          "question": 18,
+          "points": 1.1,
+          "pdf_page": 112
+        },
+        {
+          "question": 19,
+          "points": 1.1,
+          "pdf_page": 112
+        },
+        {
+          "question": 20,
+          "points": 1.0,
+          "pdf_page": 112
+        },
+        {
+          "question": 21,
+          "points": 1.1,
+          "pdf_page": 112
+        },
+        {
+          "question": 22,
+          "points": 1.1,
+          "pdf_page": 112
+        },
+        {
+          "question": 23,
+          "points": 1.0,
+          "pdf_page": 113
+        },
+        {
+          "question": 24,
+          "points": 1.0,
+          "pdf_page": 113
+        },
+        {
+          "question": 25,
+          "points": 1.1,
+          "pdf_page": 113
+        },
+        {
+          "question": 26,
+          "points": 1.1,
+          "pdf_page": 113
+        },
+        {
+          "question": 27,
+          "points": 1.1,
+          "pdf_page": 114
+        },
+        {
+          "question": 28,
+          "points": 1.0,
+          "pdf_page": 114
+        },
+        {
+          "question": 29,
+          "points": 1.1,
+          "pdf_page": 114
+        },
+        {
+          "question": 30,
+          "points": 1.0,
+          "pdf_page": 114
+        },
+        {
+          "question": 31,
+          "points": 1.1,
+          "pdf_page": 115
+        },
+        {
+          "question": 32,
+          "points": 1.0,
+          "pdf_page": 115
+        },
+        {
+          "question": 33,
+          "points": 0.8,
+          "pdf_page": 115
+        },
+        {
+          "question": 34,
+          "points": 1.1,
+          "pdf_page": 115
+        },
+        {
+          "question": 35,
+          "points": 1.0,
+          "pdf_page": 116
+        },
+        {
+          "question": 36,
+          "points": 1.1,
+          "pdf_page": 116
+        },
+        {
+          "question": 37,
+          "points": 0.8,
+          "pdf_page": 116
+        },
+        {
+          "question": 38,
+          "points": 1.0,
+          "pdf_page": 116
+        },
+        {
+          "question": 39,
+          "points": 1.0,
+          "pdf_page": 117
+        },
+        {
+          "question": 40,
+          "points": 1.1,
+          "pdf_page": 117
+        },
+        {
+          "question": 41,
+          "points": 0.8,
+          "pdf_page": 117
+        },
+        {
+          "question": 42,
+          "points": 1.1,
+          "pdf_page": 117
+        },
+        {
+          "question": 43,
+          "points": 1.0,
+          "pdf_page": 118
+        },
+        {
+          "question": 44,
+          "points": 1.0,
+          "pdf_page": 118
+        },
+        {
+          "question": 45,
+          "points": 0.8,
+          "pdf_page": 118
+        },
+        {
+          "question": 46,
+          "points": 1.1,
+          "pdf_page": 118
+        },
+        {
+          "question": 47,
+          "points": 1.0,
+          "pdf_page": 119
+        },
+        {
+          "question": 48,
+          "points": 1.1,
+          "pdf_page": 119
+        },
+        {
+          "question": 49,
+          "points": 0.8,
+          "pdf_page": 119
+        },
+        {
+          "question": 50,
+          "points": 1.1,
+          "pdf_page": 119
+        }
+      ],
+      "rules": [],
+      "status": "verified",
+      "items": [
+        0.8,
+        0.8,
+        0.8,
+        1.0,
+        0.8,
+        1.0,
+        1.1,
+        0.8,
+        1.0,
+        0.8,
+        1.0,
+        1.1,
+        1.0,
+        1.1,
+        1.1,
+        1.1,
+        1.1,
+        1.1,
+        1.1,
+        1.0,
+        1.1,
+        1.1,
+        1.0,
+        1.0,
+        1.1,
+        1.1,
+        1.1,
+        1.0,
+        1.1,
+        1.0,
+        1.1,
+        1.0,
+        0.8,
+        1.1,
+        1.0,
+        1.1,
+        0.8,
+        1.0,
+        1.0,
+        1.1,
+        0.8,
+        1.1,
+        1.0,
+        1.0,
+        0.8,
+        1.1,
+        1.0,
+        1.1,
+        0.8,
+        1.1
+      ],
+      "total": 50.0
+    },
+    {
+      "school": "중앙대학교_영어_A형",
+      "source": "combined",
+      "pdf_pages": [
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140
+      ],
+      "n": 40,
+      "questions": [
+        {
+          "question": 1,
+          "points": 2.0,
+          "pdf_page": 133,
+          "point_source_pdf_page": 133
+        },
+        {
+          "question": 2,
+          "points": 2.0,
+          "pdf_page": 133,
+          "point_source_pdf_page": 133
+        },
+        {
+          "question": 3,
+          "points": 2.0,
+          "pdf_page": 133,
+          "point_source_pdf_page": 133
+        },
+        {
+          "question": 4,
+          "points": 2.0,
+          "pdf_page": 133,
+          "point_source_pdf_page": 133
+        },
+        {
+          "question": 5,
+          "points": 2.0,
+          "pdf_page": 133,
+          "point_source_pdf_page": 133
+        },
+        {
+          "question": 6,
+          "points": 2.0,
+          "pdf_page": 133,
+          "point_source_pdf_page": 133
+        },
+        {
+          "question": 7,
+          "points": 2.0,
+          "pdf_page": 133,
+          "point_source_pdf_page": 133
+        },
+        {
+          "question": 8,
+          "points": 2.0,
+          "pdf_page": 133,
+          "point_source_pdf_page": 133
+        },
+        {
+          "question": 9,
+          "points": 2.0,
+          "pdf_page": 133,
+          "point_source_pdf_page": 133
+        },
+        {
+          "question": 10,
+          "points": 2.0,
+          "pdf_page": 133,
+          "point_source_pdf_page": 133
+        },
+        {
+          "question": 11,
+          "points": 2.0,
+          "pdf_page": 133,
+          "point_source_pdf_page": 133
+        },
+        {
+          "question": 12,
+          "points": 2.0,
+          "pdf_page": 134,
+          "point_source_pdf_page": 133
+        },
+        {
+          "question": 13,
+          "points": 2.0,
+          "pdf_page": 134,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 14,
+          "points": 2.0,
+          "pdf_page": 134,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 15,
+          "points": 2.0,
+          "pdf_page": 134,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 16,
+          "points": 2.0,
+          "pdf_page": 134,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 17,
+          "points": 2.0,
+          "pdf_page": 134,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 18,
+          "points": 2.0,
+          "pdf_page": 134,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 19,
+          "points": 2.0,
+          "pdf_page": 134,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 20,
+          "points": 2.0,
+          "pdf_page": 134,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 21,
+          "points": 3.0,
+          "pdf_page": 134,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 22,
+          "points": 3.0,
+          "pdf_page": 134,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 23,
+          "points": 3.0,
+          "pdf_page": 135,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 24,
+          "points": 3.0,
+          "pdf_page": 135,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 25,
+          "points": 3.0,
+          "pdf_page": 135,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 26,
+          "points": 3.0,
+          "pdf_page": 135,
+          "point_source_pdf_page": 134
+        },
+        {
+          "question": 27,
+          "points": 3.0,
+          "pdf_page": 136,
+          "point_source_pdf_page": 136
+        },
+        {
+          "question": 28,
+          "points": 3.0,
+          "pdf_page": 136,
+          "point_source_pdf_page": 136
+        },
+        {
+          "question": 29,
+          "points": 2.5,
+          "pdf_page": 137,
+          "point_source_pdf_page": 137
+        },
+        {
+          "question": 30,
+          "points": 2.5,
+          "pdf_page": 137,
+          "point_source_pdf_page": 137
+        },
+        {
+          "question": 31,
+          "points": 2.5,
+          "pdf_page": 138,
+          "point_source_pdf_page": 137
+        },
+        {
+          "question": 32,
+          "points": 2.5,
+          "pdf_page": 138,
+          "point_source_pdf_page": 137
+        },
+        {
+          "question": 33,
+          "points": 3.0,
+          "pdf_page": 138,
+          "point_source_pdf_page": 138
+        },
+        {
+          "question": 34,
+          "points": 3.0,
+          "pdf_page": 138,
+          "point_source_pdf_page": 138
+        },
+        {
+          "question": 35,
+          "points": 3.0,
+          "pdf_page": 139,
+          "point_source_pdf_page": 138
+        },
+        {
+          "question": 36,
+          "points": 3.0,
+          "pdf_page": 139,
+          "point_source_pdf_page": 138
+        },
+        {
+          "question": 37,
+          "points": 3.5,
+          "pdf_page": 139,
+          "point_source_pdf_page": 139
+        },
+        {
+          "question": 38,
+          "points": 3.5,
+          "pdf_page": 139,
+          "point_source_pdf_page": 139
+        },
+        {
+          "question": 39,
+          "points": 3.5,
+          "pdf_page": 140,
+          "point_source_pdf_page": 140
+        },
+        {
+          "question": 40,
+          "points": 3.5,
+          "pdf_page": 140,
+          "point_source_pdf_page": 140
+        }
+      ],
+      "rules": [
+        {
+          "first": 1,
+          "last": 7,
+          "points": 2.0,
+          "pdf_page": 133
+        },
+        {
+          "first": 8,
+          "last": 9,
+          "points": 2.0,
+          "pdf_page": 133
+        },
+        {
+          "first": 10,
+          "last": 12,
+          "points": 2.0,
+          "pdf_page": 133
+        },
+        {
+          "first": 13,
+          "last": 20,
+          "points": 2.0,
+          "pdf_page": 134
+        },
+        {
+          "first": 21,
+          "last": 26,
+          "points": 3.0,
+          "pdf_page": 134
+        },
+        {
+          "first": 27,
+          "last": 28,
+          "points": 3.0,
+          "pdf_page": 136
+        },
+        {
+          "first": 29,
+          "last": 30,
+          "points": 2.5,
+          "pdf_page": 137
+        },
+        {
+          "first": 31,
+          "last": 32,
+          "points": 2.5,
+          "pdf_page": 137
+        },
+        {
+          "first": 33,
+          "last": 34,
+          "points": 3.0,
+          "pdf_page": 138
+        },
+        {
+          "first": 35,
+          "last": 36,
+          "points": 3.0,
+          "pdf_page": 138
+        },
+        {
+          "first": 37,
+          "last": 38,
+          "points": 3.5,
+          "pdf_page": 139
+        },
+        {
+          "first": 39,
+          "last": 40,
+          "points": 3.5,
+          "pdf_page": 140
+        }
+      ],
+      "status": "verified",
+      "items": [
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.5,
+        3.5,
+        3.5,
+        3.5
+      ],
+      "total": 100.0
+    },
+    {
+      "school": "한국외국어대학교_T1-1_영어_A형",
+      "source": "combined",
+      "pdf_pages": [
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154
+      ],
+      "n": 50,
+      "questions": [
+        {
+          "question": 1,
+          "points": 1.0,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 2,
+          "points": 1.0,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 3,
+          "points": 1.0,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 4,
+          "points": 1.0,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 5,
+          "points": 1.0,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 6,
+          "points": 1.0,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 7,
+          "points": 1.0,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 8,
+          "points": 1.0,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 9,
+          "points": 1.0,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 10,
+          "points": 1.0,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 11,
+          "points": 1.0,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 12,
+          "points": 1.0,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 13,
+          "points": 1.0,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 14,
+          "points": 1.5,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 15,
+          "points": 1.5,
+          "pdf_page": 147,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 16,
+          "points": 1.5,
+          "pdf_page": 148,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 17,
+          "points": 1.5,
+          "pdf_page": 148,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 18,
+          "points": 2.0,
+          "pdf_page": 148,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 19,
+          "points": 2.0,
+          "pdf_page": 148,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 20,
+          "points": 2.0,
+          "pdf_page": 148,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 21,
+          "points": 2.0,
+          "pdf_page": 148,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 22,
+          "points": 2.0,
+          "pdf_page": 148,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 23,
+          "points": 2.0,
+          "pdf_page": 148,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 24,
+          "points": 2.0,
+          "pdf_page": 149,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 25,
+          "points": 2.0,
+          "pdf_page": 149,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 26,
+          "points": 2.0,
+          "pdf_page": 149,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 27,
+          "points": 2.0,
+          "pdf_page": 149,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 28,
+          "points": 2.0,
+          "pdf_page": 150,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 29,
+          "points": 2.0,
+          "pdf_page": 150,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 30,
+          "points": 2.0,
+          "pdf_page": 150,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 31,
+          "points": 2.5,
+          "pdf_page": 150,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 32,
+          "points": 2.5,
+          "pdf_page": 150,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 33,
+          "points": 2.5,
+          "pdf_page": 151,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 34,
+          "points": 2.5,
+          "pdf_page": 151,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 35,
+          "points": 2.5,
+          "pdf_page": 151,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 36,
+          "points": 2.5,
+          "pdf_page": 151,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 37,
+          "points": 2.5,
+          "pdf_page": 151,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 38,
+          "points": 2.5,
+          "pdf_page": 152,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 39,
+          "points": 2.5,
+          "pdf_page": 152,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 40,
+          "points": 2.5,
+          "pdf_page": 152,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 41,
+          "points": 3.0,
+          "pdf_page": 152,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 42,
+          "points": 3.0,
+          "pdf_page": 152,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 43,
+          "points": 3.0,
+          "pdf_page": 153,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 44,
+          "points": 3.0,
+          "pdf_page": 153,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 45,
+          "points": 3.0,
+          "pdf_page": 153,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 46,
+          "points": 3.0,
+          "pdf_page": 153,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 47,
+          "points": 3.0,
+          "pdf_page": 153,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 48,
+          "points": 3.0,
+          "pdf_page": 154,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 49,
+          "points": 3.0,
+          "pdf_page": 154,
+          "point_source_pdf_page": 147
+        },
+        {
+          "question": 50,
+          "points": 3.0,
+          "pdf_page": 154,
+          "point_source_pdf_page": 147
+        }
+      ],
+      "rules": [
+        {
+          "first": 1,
+          "last": 13,
+          "points": 1.0,
+          "pdf_page": 147
+        },
+        {
+          "first": 14,
+          "last": 17,
+          "points": 1.5,
+          "pdf_page": 147
+        },
+        {
+          "first": 18,
+          "last": 30,
+          "points": 2.0,
+          "pdf_page": 147
+        },
+        {
+          "first": 31,
+          "last": 40,
+          "points": 2.5,
+          "pdf_page": 147
+        },
+        {
+          "first": 41,
+          "last": 50,
+          "points": 3.0,
+          "pdf_page": 147
+        }
+      ],
+      "status": "verified",
+      "items": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0
+      ],
+      "total": 100.0
+    },
+    {
+      "school": "한국외국어대학교_T2_영어_A형",
+      "source": "combined",
+      "pdf_pages": [
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162
+      ],
+      "n": 50,
+      "questions": [
+        {
+          "question": 1,
+          "points": 1.0,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 2,
+          "points": 1.0,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 3,
+          "points": 1.0,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 4,
+          "points": 1.0,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 5,
+          "points": 1.0,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 6,
+          "points": 1.0,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 7,
+          "points": 1.0,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 8,
+          "points": 1.0,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 9,
+          "points": 1.0,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 10,
+          "points": 1.0,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 11,
+          "points": 1.0,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 12,
+          "points": 1.0,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 13,
+          "points": 1.0,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 14,
+          "points": 1.5,
+          "pdf_page": 155,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 15,
+          "points": 1.5,
+          "pdf_page": 156,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 16,
+          "points": 1.5,
+          "pdf_page": 156,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 17,
+          "points": 1.5,
+          "pdf_page": 156,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 18,
+          "points": 2.0,
+          "pdf_page": 156,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 19,
+          "points": 2.0,
+          "pdf_page": 156,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 20,
+          "points": 2.0,
+          "pdf_page": 156,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 21,
+          "points": 2.0,
+          "pdf_page": 156,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 22,
+          "points": 2.0,
+          "pdf_page": 156,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 23,
+          "points": 2.0,
+          "pdf_page": 156,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 24,
+          "points": 2.0,
+          "pdf_page": 157,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 25,
+          "points": 2.0,
+          "pdf_page": 157,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 26,
+          "points": 2.0,
+          "pdf_page": 157,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 27,
+          "points": 2.0,
+          "pdf_page": 157,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 28,
+          "points": 2.0,
+          "pdf_page": 158,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 29,
+          "points": 2.0,
+          "pdf_page": 158,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 30,
+          "points": 2.0,
+          "pdf_page": 158,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 31,
+          "points": 2.5,
+          "pdf_page": 158,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 32,
+          "points": 2.5,
+          "pdf_page": 158,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 33,
+          "points": 2.5,
+          "pdf_page": 159,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 34,
+          "points": 2.5,
+          "pdf_page": 159,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 35,
+          "points": 2.5,
+          "pdf_page": 159,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 36,
+          "points": 2.5,
+          "pdf_page": 159,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 37,
+          "points": 2.5,
+          "pdf_page": 159,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 38,
+          "points": 2.5,
+          "pdf_page": 160,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 39,
+          "points": 2.5,
+          "pdf_page": 160,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 40,
+          "points": 2.5,
+          "pdf_page": 160,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 41,
+          "points": 3.0,
+          "pdf_page": 160,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 42,
+          "points": 3.0,
+          "pdf_page": 160,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 43,
+          "points": 3.0,
+          "pdf_page": 161,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 44,
+          "points": 3.0,
+          "pdf_page": 161,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 45,
+          "points": 3.0,
+          "pdf_page": 161,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 46,
+          "points": 3.0,
+          "pdf_page": 161,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 47,
+          "points": 3.0,
+          "pdf_page": 161,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 48,
+          "points": 3.0,
+          "pdf_page": 162,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 49,
+          "points": 3.0,
+          "pdf_page": 162,
+          "point_source_pdf_page": 155
+        },
+        {
+          "question": 50,
+          "points": 3.0,
+          "pdf_page": 162,
+          "point_source_pdf_page": 155
+        }
+      ],
+      "rules": [
+        {
+          "first": 1,
+          "last": 13,
+          "points": 1.0,
+          "pdf_page": 155
+        },
+        {
+          "first": 14,
+          "last": 17,
+          "points": 1.5,
+          "pdf_page": 155
+        },
+        {
+          "first": 18,
+          "last": 30,
+          "points": 2.0,
+          "pdf_page": 155
+        },
+        {
+          "first": 31,
+          "last": 40,
+          "points": 2.5,
+          "pdf_page": 155
+        },
+        {
+          "first": 41,
+          "last": 50,
+          "points": 3.0,
+          "pdf_page": 155
+        }
+      ],
+      "status": "verified",
+      "items": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0
+      ],
+      "total": 100.0
+    },
+    {
+      "school": "한양대학교_서울_영어_A",
+      "source": "combined",
+      "pdf_pages": [
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188
+      ],
+      "n": 40,
+      "questions": [
+        {
+          "question": 1,
+          "points": 2.0,
+          "pdf_page": 179
+        },
+        {
+          "question": 2,
+          "points": 2.0,
+          "pdf_page": 179
+        },
+        {
+          "question": 3,
+          "points": 2.0,
+          "pdf_page": 179
+        },
+        {
+          "question": 4,
+          "points": 2.0,
+          "pdf_page": 179
+        },
+        {
+          "question": 5,
+          "points": 2.0,
+          "pdf_page": 179
+        },
+        {
+          "question": 6,
+          "points": 2.0,
+          "pdf_page": 179
+        },
+        {
+          "question": 7,
+          "points": 2.0,
+          "pdf_page": 179
+        },
+        {
+          "question": 8,
+          "points": 2.0,
+          "pdf_page": 179
+        },
+        {
+          "question": 9,
+          "points": 2.0,
+          "pdf_page": 179
+        },
+        {
+          "question": 10,
+          "points": 3.0,
+          "pdf_page": 180
+        },
+        {
+          "question": 11,
+          "points": 3.0,
+          "pdf_page": 180
+        },
+        {
+          "question": 12,
+          "points": 3.0,
+          "pdf_page": 180
+        },
+        {
+          "question": 13,
+          "points": 3.0,
+          "pdf_page": 181
+        },
+        {
+          "question": 14,
+          "points": 3.0,
+          "pdf_page": 181
+        },
+        {
+          "question": 15,
+          "points": 3.0,
+          "pdf_page": 181
+        },
+        {
+          "question": 16,
+          "points": 2.0,
+          "pdf_page": 182
+        },
+        {
+          "question": 17,
+          "points": 2.0,
+          "pdf_page": 182
+        },
+        {
+          "question": 18,
+          "points": 3.0,
+          "pdf_page": 182
+        },
+        {
+          "question": 19,
+          "points": 3.0,
+          "pdf_page": 182
+        },
+        {
+          "question": 20,
+          "points": 3.0,
+          "pdf_page": 182
+        },
+        {
+          "question": 21,
+          "points": 3.0,
+          "pdf_page": 183
+        },
+        {
+          "question": 22,
+          "points": 3.0,
+          "pdf_page": 183
+        },
+        {
+          "question": 23,
+          "points": 3.0,
+          "pdf_page": 183
+        },
+        {
+          "question": 24,
+          "points": 2.0,
+          "pdf_page": 183
+        },
+        {
+          "question": 25,
+          "points": 3.0,
+          "pdf_page": 184
+        },
+        {
+          "question": 26,
+          "points": 2.0,
+          "pdf_page": 184
+        },
+        {
+          "question": 27,
+          "points": 2.0,
+          "pdf_page": 184
+        },
+        {
+          "question": 28,
+          "points": 3.0,
+          "pdf_page": 184
+        },
+        {
+          "question": 29,
+          "points": 3.0,
+          "pdf_page": 185
+        },
+        {
+          "question": 30,
+          "points": 2.0,
+          "pdf_page": 185
+        },
+        {
+          "question": 31,
+          "points": 3.0,
+          "pdf_page": 185
+        },
+        {
+          "question": 32,
+          "points": 2.0,
+          "pdf_page": 185
+        },
+        {
+          "question": 33,
+          "points": 3.0,
+          "pdf_page": 186
+        },
+        {
+          "question": 34,
+          "points": 2.0,
+          "pdf_page": 186
+        },
+        {
+          "question": 35,
+          "points": 3.0,
+          "pdf_page": 186
+        },
+        {
+          "question": 36,
+          "points": 2.0,
+          "pdf_page": 186
+        },
+        {
+          "question": 37,
+          "points": 3.0,
+          "pdf_page": 187
+        },
+        {
+          "question": 38,
+          "points": 2.0,
+          "pdf_page": 187
+        },
+        {
+          "question": 39,
+          "points": 3.0,
+          "pdf_page": 187
+        },
+        {
+          "question": 40,
+          "points": 2.0,
+          "pdf_page": 187
+        }
+      ],
+      "rules": [],
+      "status": "verified",
+      "items": [
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        2.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        2.0,
+        2.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        2.0,
+        3.0,
+        2.0,
+        2.0,
+        3.0,
+        3.0,
+        2.0,
+        3.0,
+        2.0,
+        3.0,
+        2.0,
+        3.0,
+        2.0,
+        3.0,
+        2.0,
+        3.0,
+        2.0
+      ],
+      "total": 100.0
+    },
+    {
+      "school": "홍익대학교_서울_인문_A형",
+      "source": "combined",
+      "pdf_pages": [
+        189,
+        190,
+        191,
+        192,
+        193,
+        194
+      ],
+      "n": 40,
+      "question_pages": {
+        "1": 189,
+        "2": 189,
+        "3": 189,
+        "4": 189,
+        "5": 189,
+        "6": 189,
+        "7": 189,
+        "8": 189,
+        "9": 189,
+        "10": 189,
+        "11": 189,
+        "12": 189,
+        "13": 189,
+        "14": 189,
+        "15": 189,
+        "16": 189,
+        "17": 189,
+        "18": 190,
+        "19": 190,
+        "20": 190,
+        "21": 190,
+        "22": 190,
+        "23": 190,
+        "24": 190,
+        "25": 190,
+        "26": 190,
+        "27": 190,
+        "28": 190,
+        "29": 191,
+        "30": 191,
+        "31": 191,
+        "32": 192,
+        "33": 192,
+        "34": 192,
+        "35": 193,
+        "36": 193,
+        "37": 193,
+        "38": 194,
+        "39": 194,
+        "40": 194
+      },
+      "status": "not_printed_in_provided_pdf",
+      "note": "제공 PDF의 해당 시험지 전체 문항에서 배점 표기를 찾지 못함. 대학이 배점을 공개하지 않았다는 뜻은 아니며 실제 배점을 임의로 추정하지 않음."
+    }
+  ]
+}
