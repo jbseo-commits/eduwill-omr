@@ -1,0 +1,265 @@
+{
+  "year": "2024",
+  "school": "한양대학교_영어A형",
+  "source": {
+    "kind": "official_exam",
+    "file_name": "2024 인문 서울 A 문제.pdf",
+    "url": "https://go.hanyang.ac.kr/file/download.do?menu=boardfile&file_no=2256",
+    "publication_url": "https://go.hanyang.ac.kr/web/pds/pds_view.do?bn=13605&m_type=PYEONIP",
+    "sha256": "e8fbbcb511176b44e244ff6be96ec0faf6dd968fceeefb5f48f5ce8d6f3a8b7c",
+    "page_count": 10,
+    "printed_notice": "문항별 2·3·4점 표기, 35문항 총 100점",
+    "verified_at": "2026-10-27",
+    "verification": "한양대학교 입학처 원본 PDF의 문항번호·배점 35개를 pypdf와 pdfplumber로 추출·대조하고, 오류가 있던 19~26번은 PDF 5~8쪽을 렌더링해 시각 확인"
+  },
+  "total": 100,
+  "items": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    2,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    3,
+    4,
+    3,
+    3,
+    3,
+    2,
+    3,
+    4,
+    3
+  ],
+  "questions": [
+    {
+      "question": 1,
+      "points": 2,
+      "pdf_page": 2,
+      "printed_page": 1
+    },
+    {
+      "question": 2,
+      "points": 2,
+      "pdf_page": 2,
+      "printed_page": 1
+    },
+    {
+      "question": 3,
+      "points": 2,
+      "pdf_page": 2,
+      "printed_page": 1
+    },
+    {
+      "question": 4,
+      "points": 2,
+      "pdf_page": 2,
+      "printed_page": 1
+    },
+    {
+      "question": 5,
+      "points": 2,
+      "pdf_page": 2,
+      "printed_page": 1
+    },
+    {
+      "question": 6,
+      "points": 2,
+      "pdf_page": 2,
+      "printed_page": 1
+    },
+    {
+      "question": 7,
+      "points": 2,
+      "pdf_page": 2,
+      "printed_page": 1
+    },
+    {
+      "question": 8,
+      "points": 2,
+      "pdf_page": 2,
+      "printed_page": 1
+    },
+    {
+      "question": 9,
+      "points": 3,
+      "pdf_page": 2,
+      "printed_page": 1
+    },
+    {
+      "question": 10,
+      "points": 3,
+      "pdf_page": 3,
+      "printed_page": 2
+    },
+    {
+      "question": 11,
+      "points": 3,
+      "pdf_page": 3,
+      "printed_page": 2
+    },
+    {
+      "question": 12,
+      "points": 3,
+      "pdf_page": 3,
+      "printed_page": 2
+    },
+    {
+      "question": 13,
+      "points": 3,
+      "pdf_page": 3,
+      "printed_page": 2
+    },
+    {
+      "question": 14,
+      "points": 3,
+      "pdf_page": 3,
+      "printed_page": 2
+    },
+    {
+      "question": 15,
+      "points": 3,
+      "pdf_page": 3,
+      "printed_page": 2
+    },
+    {
+      "question": 16,
+      "points": 2,
+      "pdf_page": 4,
+      "printed_page": 3
+    },
+    {
+      "question": 17,
+      "points": 4,
+      "pdf_page": 4,
+      "printed_page": 3
+    },
+    {
+      "question": 18,
+      "points": 4,
+      "pdf_page": 5,
+      "printed_page": 4
+    },
+    {
+      "question": 19,
+      "points": 3,
+      "pdf_page": 5,
+      "printed_page": 4
+    },
+    {
+      "question": 20,
+      "points": 3,
+      "pdf_page": 5,
+      "printed_page": 4
+    },
+    {
+      "question": 21,
+      "points": 3,
+      "pdf_page": 6,
+      "printed_page": 5
+    },
+    {
+      "question": 22,
+      "points": 3,
+      "pdf_page": 6,
+      "printed_page": 5
+    },
+    {
+      "question": 23,
+      "points": 3,
+      "pdf_page": 6,
+      "printed_page": 5
+    },
+    {
+      "question": 24,
+      "points": 3,
+      "pdf_page": 7,
+      "printed_page": 6
+    },
+    {
+      "question": 25,
+      "points": 3,
+      "pdf_page": 7,
+      "printed_page": 6
+    },
+    {
+      "question": 26,
+      "points": 4,
+      "pdf_page": 8,
+      "printed_page": 7
+    },
+    {
+      "question": 27,
+      "points": 3,
+      "pdf_page": 8,
+      "printed_page": 7
+    },
+    {
+      "question": 28,
+      "points": 4,
+      "pdf_page": 9,
+      "printed_page": 8
+    },
+    {
+      "question": 29,
+      "points": 3,
+      "pdf_page": 9,
+      "printed_page": 8
+    },
+    {
+      "question": 30,
+      "points": 3,
+      "pdf_page": 9,
+      "printed_page": 8
+    },
+    {
+      "question": 31,
+      "points": 3,
+      "pdf_page": 9,
+      "printed_page": 8
+    },
+    {
+      "question": 32,
+      "points": 2,
+      "pdf_page": 10,
+      "printed_page": 9
+    },
+    {
+      "question": 33,
+      "points": 3,
+      "pdf_page": 10,
+      "printed_page": 9
+    },
+    {
+      "question": 34,
+      "points": 4,
+      "pdf_page": 10,
+      "printed_page": 9
+    },
+    {
+      "question": 35,
+      "points": 3,
+      "pdf_page": 10,
+      "printed_page": 9
+    }
+  ]
+}

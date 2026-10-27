@@ -86,6 +86,9 @@ PYTHONIOENCODING=utf-8 python "$DIST/scripts/apply-ajou-2024-points.py" || {
   echo "  🔴 2024 아주대 실제 배점 반영에 실패했다."; exit 1; }
 PYTHONIOENCODING=utf-8 python "$DIST/scripts/apply-2026-points.py" || {
   echo "  🔴 2026 제공 자료의 검증 배점 반영에 실패했다."; exit 1; }
+# 한양대 2024의 19~25번은 각 3점, 26번은 4점이다. 공식 원문대로 100점 만점을 복구한다.
+PYTHONIOENCODING=utf-8 python "$DIST/scripts/apply-hanyang-2024-points.py" || {
+  echo "  🔴 2024 한양대 공식 배점 반영에 실패했다."; exit 1; }
 PYTHONIOENCODING=utf-8 python "$DIST/scripts/apply-score-policy.py" || {
   echo "  🔴 미확인 배점의 균등 점수 환산 반영에 실패했다."; exit 1; }
 
@@ -135,6 +138,7 @@ cd "$DIST" || exit 1
 git add index.html omr.html omr-v2.html .nojekyll robots.txt README.md .gitattributes adm_expand.py gap_fix.pl dist_fix.pl 배포.sh
 git add cumulative.html scripts/apply-ajou-2024-points.py data/verified/ajou-2024-points.json tests/ajou2024-scoring.test.mjs
 git add scripts/apply-2026-points.py data/verified/2026-points.json tests/2026-scoring.test.mjs
+git add scripts/apply-hanyang-2024-points.py data/verified/hanyang-2024-points.json tests/hanyang2024-scoring.test.mjs
 git add scripts/apply-score-policy.py tests/score-policy.test.mjs
 if git diff --cached --quiet; then
   echo "  변경 없음 — 커밋 생략."
